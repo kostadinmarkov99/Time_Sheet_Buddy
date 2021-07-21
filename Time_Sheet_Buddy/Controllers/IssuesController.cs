@@ -164,9 +164,17 @@ namespace Time_Sheet_Buddy.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public void CreateNewTask()
+        public async Task<IActionResult> CreateNewTask()
         {
+            Issue issue = new Issue();
 
+            issue.State = "New";
+            _context.Add(issue);
+            await _context.SaveChangesAsync();
+
+            string id = issue.Id.ToString();
+
+            return RedirectToAction("Index");
         }
 
         // GET: Issues/Edit/5

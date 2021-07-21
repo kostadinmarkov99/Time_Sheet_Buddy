@@ -391,7 +391,7 @@ else
     createButton.addEventListener('click', e => {
         //let newIssue = createIssue("Issue Title", "Issue Description")
         //createButton.insertAdjacentElement("afterend", newIssue);
-        window.location = "@(Url.Action("Create", "Issues"))" + "?Id=" + elInt;
+        window.location = "@(Url.Action("CreateNewTask", "Issues"))";
     })
 
     draggables.forEach(draggable => {
@@ -509,7 +509,7 @@ else
             request.setRequestHeader('Content-Length', JSON.stringify(o).length);
             request.onreadystatechange = function () {
                 if (request.readyState == 4 && request.status == 200) {
-
+                    console.log(request.responseText)
                 }
             }
             request.send(JSON.stringify(o));

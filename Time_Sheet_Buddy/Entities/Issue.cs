@@ -19,21 +19,14 @@ namespace Time_Sheet_Buddy.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(50)]
         public string Title { get; set; }
 
-        [DataType(DataType.MultilineText)]
-        [StringLength(200)]
         public string Description { get; set; }
 
-        [Required]
         public double Duration { get; set; }
 
-        [Required]
         public string Assignee { get; set; }
 
-        [Required]
         public string AssignedTo { get; set; }
 
 
@@ -43,7 +36,6 @@ namespace Time_Sheet_Buddy.Entities
 
         public string State { get; set; }
 
-        [Required]
         public string Project { get; set; }
     }
 }
