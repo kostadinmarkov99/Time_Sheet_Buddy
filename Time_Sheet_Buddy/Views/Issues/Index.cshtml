@@ -1,0 +1,580 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering;
+@using Time_Sheet_Buddy.Models;
+
+@model IEnumerable<Time_Sheet_Buddy.Entities.Issue>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    var users = ViewData["Users"] as List<ApplicationUser>;
+    var lastChoice = ViewData["LastChoice"] as String;
+    var currUser = ViewData["CurrentUser"] as String;
+}
+
+<style>
+        main {
+            padding: 3rem 5%;
+            height: 90vh;
+            background: linear-gradient( 145deg, #ffd89b 0%, #19547b 100%) no-repeat fixed;
+        }
+
+        .container{
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .issue {
+            transition: transform .2s; /* Animation */
+        }
+
+            .issue:hover {
+                transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+            }
+
+        .container body-content {
+            width: 80%;
+        }
+
+        .board-container {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+            flex-direction: column;
+        }
+
+    .pb-3{
+        height: 100%;
+        width: 100%;
+    }
+
+    .issues-block {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+
+        .issue-container {
+            height: 100%;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #issues {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .issue-container h2 {
+            margin: .5rem;
+        }
+
+        .issues-list {
+            height: 100%;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: .25rem;
+            list-style: none;
+            margin: 0;
+            padding: .5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: scroll;
+        }
+
+        .issue {
+            width: 100%;
+            margin: .5rem;
+            border: 1px solid black;
+            border-radius: .25rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .issue-title {
+            align-self: center;
+            margin: .5rem 0;
+            color: #436C81;
+            word-wrap: break-word;
+            display: inline-block;
+            overflow: hidden;
+            width: 100%;
+            text-align: center;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .issue-description {
+            align-self: center;
+            margin: .1rem 0;
+            color: darkgray;
+            word-wrap: break-word;
+            display: inline-block;
+            overflow: hidden;
+            width: 100%;
+            text-align: center;
+            font-style: italic;
+        }
+
+    #deletion-tray {
+        margin: .2rem;
+        width: 100%;
+        background-image: url(images/trash.png);
+        background-color: #ffeded;
+        background-repeat: no-repeat;
+        background-size: 5rem;
+        background-position: center;
+        opacity: 0.8;
+        border-radius: .25rem;
+        overflow-y: unset;
+    }
+
+        .issue.dragging {
+            opacity: .5;
+        }
+
+        .add-btn-img {
+            margin: 0 auto;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            justify-self: flex-start;
+        }
+
+        @@media only screen and (max-width: 1024px) {
+
+            main {
+                font-size: small;
+                padding: .5rem 2%;
+                max-width: 99vw;
+            }
+
+            .issues-block {
+                flex-direction: column;
+            }
+
+            .issue-container {
+                width: 100%;
+                min-height: 40vh;
+                max-height: 50vh;
+            }
+        }
+
+        @@media (min-width: 1200px) .container {
+            width: 100%;
+        }
+    @@media
+        only screen and (max-width: 768px) {
+            main
+
+        {
+            font-size: small;
+            padding: .5rem 2%;
+            max-width: 99vw;
+        }
+
+        #issues {
+            flex-direction: column;
+        }
+
+        .issues-block {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .issue-container {
+            flex-direction: column;
+            width: 100%;
+            min-height: 40vh;
+            max-height: 50vh;
+        }
+        }
+</style>
+<h2></h2>
+
+@if (User.IsInRole("Administrator"))
+{
+    if (User.IsInRole("Administrator"))
+    {
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+    }
+    using (Html.BeginForm("Index", "Issues"))
+    {
+        <select id="id_filter_list" name="id_filter_list">
+            @foreach (var user in users)
+            {
+                if (lastChoice != null && lastChoice == user.Email)
+                {
+                    <option selected>@user.Email</option>
+                }
+                else
+                {
+                    <option>@user.Email</option>
+                }
+            }
+        </select>
+        <input type="submit" value="Filter" />
+    }
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Duration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssignedTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Project)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    Title: 
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    Duration: 
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    Assigned To:
+                    @Html.DisplayFor(modelItem => item.AssignedTo)
+                </td>
+                <td>
+                    Date: 
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    Sate: 
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    Project: 
+                    @Html.DisplayFor(modelItem => item.Project)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <html>
+    <head>
+
+    </head>
+    <body>
+        <div class="root">
+            <header class="main-header">
+                <h1>Backlog</h1>
+            </header>
+            @using (Html.BeginForm("Index", "Issues"))
+            {
+                <select id="id_filter_list" name="id_filter_list">
+                    <option>Show All</option>
+                    @foreach (var user in users)
+                    {
+                        if (lastChoice != null && lastChoice.Split(' ')[0].ToString() == user.Email.ToString())
+                        {
+                            if (currUser != null && currUser.ToString() == user.Id.ToString())
+                            {
+                                <option selected>@user.Email (<i>Me</i>)</option>
+                            }
+                            else
+                            {
+                                <option selected>@user.Email</option>
+                            }
+                        }
+                        else
+                        {
+                            if (currUser != null && currUser.ToString() == user.Id.ToString())
+                            {
+                                <option>@user.Email (<i>Me</i>)</option>
+                            }
+                            else
+                            {
+                                <option>@user.Email</option>
+                            }
+                        }
+                    }
+                </select>
+                <input type="submit" value="Filter" />
+            }
+            <main>
+                <div class="board-container">
+                    <div id="issues">
+                        <div class="issues-block">
+                            <div class="issue-container">
+
+                                <h2>Open</h2>
+                                <ul class="issues-list" id="open">
+                                    <li id="add-issue">
+                                        <img class="add-btn-img" src="images/addButton.png" alt="Add issue" />
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="issue-container">
+                                <h2>In Progress</h2>
+                                <ul class="issues-list" id="in-progress">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="issues-block">
+                            <div class="issue-container">
+                                <h2>Resolved</h2>
+                                <ul class="issues-list" id="resolved">
+                                </ul>
+                            </div>
+                            <div class="issue-container">
+                                <h2>Closed</h2>
+                                <ul class="issues-list" id="closed">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="issues-list" id="deletion-tray">
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
+
+    <script type="text/javascript">
+    let draggables = document.querySelectorAll('.issue')
+    let containers = document.querySelectorAll('.issues-list')
+    let deletionTray = document.getElementById('deletion-tray')
+    let issuesContainer = document.getElementById('issues')
+    let createButton = document.getElementById('add-issue')
+
+    deletionTray.style.visibility = 'hidden'
+    deletionTray.style.height = '0'
+
+    createButton.addEventListener('click', e => {
+        //let newIssue = createIssue("Issue Title", "Issue Description")
+        //createButton.insertAdjacentElement("afterend", newIssue);
+        window.location = "@(Url.Action("Create", "Issues"))" + "?Id=" + elInt;
+    })
+
+    draggables.forEach(draggable => {
+        console.log("draggables.forEach - line 206");
+
+        draggable.addEventListener('dragstart', () => {
+            draggable.classList.add('dragging')
+            deletionTray.style.visibility = 'visible'
+            deletionTray.style.height = '30%'
+            issuesContainer.style.height = '70%'
+        })
+
+        draggable.addEventListener('dragend', () => {
+            draggable.classList.remove('dragging')
+            deletionTray.style.visibility = 'hidden'
+            deletionTray.style.height = '0'
+            issuesContainer.style.height = '100%'
+        })
+    })
+
+    containers.forEach(container => {
+        container.addEventListener('dragover', e => {
+            e.preventDefault()
+            const afterElement = getDragAfterElement(container, e.clientY)
+
+            const draggable = document.querySelector('.dragging')
+            if (afterElement == null) {
+                container.appendChild(draggable)
+            } else {
+                container.insertBefore(draggable, afterElement)
+            }
+        })
+    })
+
+    deletionTray.addEventListener('dragend', e => {
+
+        console.log("deletionTray.addEventListener line 240");
+        e.preventDefault();
+        deletionTray.lastChild.remove()
+    })
+
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.issue:not(.dragging)')]
+
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect()
+            const offset = y - box.top - box.height / 2
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child }
+            } else {
+            return closest
+        }
+        }, { offset: Number.NEGATIVE_INFINITY }).element
+    }
+
+    function issueDoubleClick(el) {
+        console.log("Hello from the issue clicked!!! " + el);
+
+        var elInt = parseInt(el);
+
+        window.location = "@(Url.Action("Details", "Issues"))" + "?Id=" + elInt;
+
+        @*console.log(elInt);
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('GET', '/IssueTrackers/Edit', true);
+        xhr.send(elInt);*@
+    }
+
+    function newButtonClicked() {
+        //let newIssue = createIssue("Issue Title", "Issue Description")
+        //createButton.insertAdjacentElement("afterend", newIssue);
+    }
+
+    function createIssue(id, titleMessage, descriptionMessage, durationMessage, assignieMessage, projectMessage) {
+        let newIssue = document.createElement("li");
+        newIssue.classList.add('issue');
+        newIssue.setAttribute("id", id);
+        newIssue.setAttribute('draggable', 'true');
+
+        newIssue.addEventListener('dragstart', () => {
+            console.log("newIssue.addEventListener dragstart - line 306")
+            newIssue.classList.add('dragging')
+            deletionTray.style.visibility = 'visible'
+            deletionTray.style.height = '30%'
+        })
+
+        newIssue.addEventListener('dragend', () => {
+            console.log("newIssue.addEventListener draged - line 306")
+            newIssue.classList.remove('dragging')
+            console.log("id of the issue is " + newIssue.id);
+            deletionTray.style.visibility = 'hidden'
+            deletionTray.style.height = '0'
+            console.log(document.getElementById(newIssue.id).parentNode.id);
+
+            var innerText = document.getElementById(newIssue.id).children[2];
+
+            if (document.getElementById(newIssue.id).parentNode.id == "closed") {
+                innerText.textContent = "0";
+            }
+
+            var request = new XMLHttpRequest();
+            debugger;
+            var o = new Object();
+            o.issue_id = newIssue.id;
+            o.issue_new_state = document.getElementById(newIssue.id).parentNode.id;
+
+            console.log(o.issue_id);
+            console.log(o.newState);
+            console.log(JSON.stringify(o));
+
+
+            request.open('POST', '/Issues/IndexPost', true);
+            request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            request.setRequestHeader('Content-Length', JSON.stringify(o).length);
+            request.onreadystatechange = function () {
+                if (request.readyState == 4 && request.status == 200) {
+
+                }
+            }
+            request.send(JSON.stringify(o));
+        })
+
+        let title = document.createElement('p')
+        title.classList.add('issue-title')
+        title.setAttribute('contenteditable', 'false');
+        title.innerHTML = titleMessage;
+
+        let description = document.createElement('p')
+        description.classList.add('issue-description')
+        description.setAttribute('contenteditable', 'false');
+        description.innerHTML = descriptionMessage;
+
+        let duration = document.createElement('p')
+        duration.classList.add('issue-duration')
+        duration.setAttribute('contenteditable', 'false');
+        duration.innerHTML = durationMessage;
+
+        let assignie = document.createElement('p')
+        assignie.classList.add('issue-duration')
+        assignie.setAttribute('contenteditable', 'false');
+        assignie.innerHTML = assignieMessage;
+
+        let project = document.createElement('p')
+        project.classList.add('issue-duration')
+        project.setAttribute('contenteditable', 'false');
+        project.innerHTML = projectMessage;
+
+        newIssue.appendChild(title);
+        newIssue.appendChild(description);
+        newIssue.appendChild(duration);
+        newIssue.appendChild(assignie);
+        newIssue.appendChild(project);
+
+        newIssue.addEventListener("dblclick", function () { issueDoubleClick(newIssue.id) });
+
+        return newIssue;
+    }
+
+    var model = JSON.parse('@Html.Raw(Json.Serialize(Model))');
+    for (var i = 0; i < model.length; i++) {
+        console.log(model[i]);
+        let open = document.getElementById("open");
+        let inProgress = document.getElementById("in-progress");
+        let resolved = document.getElementById("resolved");
+        let closed = document.getElementById("closed");
+        if (model[i].state == "New") {
+
+            let issue = createIssue(model[i].id, model[i].title, model[i].description, model[i].duration, model[i].assignie, model[i].project);
+            open.appendChild(issue);
+        }
+        else if (model[i].state == "In Progress") {
+            let issue = createIssue(model[i].id, model[i].title, model[i].description, model[i].duration, model[i].assignie, model[i].project);
+            inProgress.appendChild(issue);
+        }
+        else if (model[i].state == "Active") {
+            let issue = createIssue(model[i].id, model[i].title, model[i].description, model[i].duration, model[i].assignie, model[i].project);
+            resolved.appendChild(issue);
+        }
+        else if (model[i].state == "Closed") {
+            let issue = createIssue(model[i].id, model[i].title, model[i].description, "0", model[i].assignie, model[i].project);
+            closed.appendChild(issue);
+        }
+    }
+    </script>
+}

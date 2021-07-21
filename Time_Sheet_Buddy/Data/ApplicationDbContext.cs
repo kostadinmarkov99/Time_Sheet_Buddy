@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Time_Sheet_Buddy.Models;
+using Time_Sheet_Buddy.Entities;
 
 namespace Time_Sheet_Buddy.Data
 {
@@ -48,5 +49,11 @@ namespace Time_Sheet_Buddy.Data
                 entity.ToTable("UserTokens");
             });
         }
+
+        public DbSet<Time_Sheet_Buddy.Entities.Issue> Issue { get; set; }
+
+        public DbSet<Time_Sheet_Buddy.Entities.Projectcs> Projectcs { get; set; }
+
+        public DbSet<Time_Sheet_Buddy.Entities.Stete> Stetes { get; set; }
     }
 }
