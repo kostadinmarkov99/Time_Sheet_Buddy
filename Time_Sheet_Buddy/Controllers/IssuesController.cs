@@ -157,16 +157,31 @@ namespace Time_Sheet_Buddy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,Duration,AssignedTo, Assignee,Date,State,Project")] Issue issue)
         {
-            issue.Assignee = "sm";
+            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userItem = _context.Users.Find(currentUserId);
+
+            string userName = userItem.UserName;
+
+            issue.Assignee = userName;
 
             _context.Add(issue);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> CreateNewTask()
         {
             Issue issue = new Issue();
+
+            issue.Title = "New Task";
+
+            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userItem = _context.Users.Find(currentUserId);
+
+            string userName = userItem.UserName;
+
+            issue.Assignee = userName;
 
             issue.State = "New";
             _context.Add(issue);

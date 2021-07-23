@@ -14,37 +14,37 @@
 }
 
 <style>
-        main {
-            padding: 3rem 5%;
-            height: 90vh;
-            background: linear-gradient( 145deg, #ffd89b 0%, #19547b 100%) no-repeat fixed;
+    main {
+        padding: 0rem 5%;
+        height: 100%;
+        background: linear-gradient( 145deg, #ffd89b 0%, #19547b 100%) no-repeat fixed;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .issue {
+        transition: transform .2s; /* Animation */
+    }
+
+        .issue:hover {
+            transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
         }
 
-        .container{
-            width: 100%;
-            max-width: 100%;
-        }
+    .container body-content {
+        width: 80%;
+    }
 
-        .issue {
-            transition: transform .2s; /* Animation */
-        }
+    .board-container {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        flex-direction: column;
+    }
 
-            .issue:hover {
-                transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-            }
-
-        .container body-content {
-            width: 80%;
-        }
-
-        .board-container {
-            display: flex;
-            flex-direction: row;
-            height: 100%;
-            flex-direction: column;
-        }
-
-    .pb-3{
+    .pb-3 {
         height: 100%;
         width: 100%;
     }
@@ -55,74 +55,74 @@
         width: 100%;
     }
 
-        .issue-container {
-            height: 100%;
-            margin: 0 auto;
-            width: 100%;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            flex-direction: column;
-        }
+    .issue-container {
+        height: 100%;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+        padding: 1px;
+    }
 
-        #issues {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: row;
-        }
+    #issues {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+    }
 
-        .issue-container h2 {
-            margin: .5rem;
-        }
+    .issue-container h2 {
+        margin: .5rem;
+    }
 
-        .issues-list {
-            height: 100%;
-            width: 100%;
-            background-color: #ffffff;
-            border-radius: .25rem;
-            list-style: none;
-            margin: 0;
-            padding: .5rem 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-y: scroll;
-        }
+    .issues-list {
+        height: 100%;
+        width: 100%;
+        background-color: #ffffff;
+        border-radius: .25rem;
+        list-style: none;
+        margin: 0;
+        padding: .5rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .issue {
-            width: 100%;
-            margin: .5rem;
-            border: 1px solid black;
-            border-radius: .25rem;
-            display: flex;
-            flex-direction: column;
-        }
+    .issue {
+        width: 100%;
+        margin: .5rem;
+        border: 1px solid black;
+        border-radius: .25rem;
+        display: flex;
+        flex-direction: column;
+    }
 
-        .issue-title {
-            align-self: center;
-            margin: .5rem 0;
-            color: #436C81;
-            word-wrap: break-word;
-            display: inline-block;
-            overflow: hidden;
-            width: 100%;
-            text-align: center;
-            font-size: larger;
-            font-weight: bold;
-        }
+    .issue-title {
+        align-self: center;
+        margin: .5rem 0;
+        color: #436C81;
+        word-wrap: break-word;
+        display: inline-block;
+        overflow: hidden;
+        width: 100%;
+        text-align: center;
+        font-size: larger;
+        font-weight: bold;
+    }
 
-        .issue-description {
-            align-self: center;
-            margin: .1rem 0;
-            color: darkgray;
-            word-wrap: break-word;
-            display: inline-block;
-            overflow: hidden;
-            width: 100%;
-            text-align: center;
-            font-style: italic;
-        }
+    .issue-description {
+        align-self: center;
+        margin: .1rem 0;
+        color: darkgray;
+        word-wrap: break-word;
+        display: inline-block;
+        overflow: hidden;
+        width: 100%;
+        text-align: center;
+        font-style: italic;
+    }
 
     #deletion-tray {
         margin: .2rem;
@@ -137,45 +137,51 @@
         overflow-y: unset;
     }
 
-        .issue.dragging {
-            opacity: .5;
+    .issue.dragging {
+        opacity: .5;
+    }
+
+    .add-btn-img {
+        margin: 0 auto;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        justify-self: flex-start;
+    }
+
+    @@media only screen and (max-width: 1024px) {
+
+        main {
+            font-size: small;
+            padding: .5rem 2%;
+            max-width: 99vw;
         }
 
-        .add-btn-img {
-            margin: 0 auto;
-            width: 2rem;
-            height: 2rem;
-            display: flex;
-            justify-self: flex-start;
+        .issues-block {
+            flex-direction: column;
         }
 
-        @@media only screen and (max-width: 1024px) {
-
-            main {
-                font-size: small;
-                padding: .5rem 2%;
-                max-width: 99vw;
-            }
-
-            .issues-block {
-                flex-direction: column;
-            }
-
-            .issue-container {
-                width: 100%;
-                min-height: 40vh;
-                max-height: 50vh;
-            }
+        .issues-list {
+            overflow-y: scroll;
         }
 
-        @@media (min-width: 1200px) .container {
+        .issue-container {
             width: 100%;
+            min-height: 40vh;
+            max-height: 50vh;
         }
-    @@media
-        only screen and (max-width: 768px) {
-            main
+    }
 
-        {
+    @@media (min-width: 1200px) .container {
+        width: 100%;
+
+        .issues-list {
+            overflow-y: scroll;
+        }
+    }
+
+    @@media only screen and (max-width: 768px) {
+        main {
             font-size: small;
             padding: .5rem 2%;
             max-width: 99vw;
@@ -183,6 +189,10 @@
 
         #issues {
             flex-direction: column;
+        }
+
+        .issues-list {
+            overflow-y: scroll;
         }
 
         .issues-block {
@@ -196,6 +206,50 @@
             min-height: 40vh;
             max-height: 50vh;
         }
+    }
+
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
         }
 </style>
 <h2></h2>
@@ -256,14 +310,14 @@
         {
             <tr>
                 <td>
-                    Title: 
+                    Title:
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    Duration: 
+                    Duration:
                     @Html.DisplayFor(modelItem => item.Duration)
                 </td>
                 <td>
@@ -271,15 +325,15 @@
                     @Html.DisplayFor(modelItem => item.AssignedTo)
                 </td>
                 <td>
-                    Date: 
+                    Date:
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 <td>
-                    Sate: 
+                    Sate:
                     @Html.DisplayFor(modelItem => item.State)
                 </td>
                 <td>
-                    Project: 
+                    Project:
                     @Html.DisplayFor(modelItem => item.Project)
                 </td>
                 <td>
@@ -338,47 +392,65 @@ else
                 </select>
                 <input type="submit" value="Filter" />
             }
-            <main>
-                <div class="board-container">
-                    <div id="issues">
-                        <div class="issues-block">
-                            <div class="issue-container">
+        <main>
+            <!-- Trigger/Open The Modal -->
+            <div id="myBtn">Open Modal</div>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
 
-                                <h2>Open</h2>
-                                <ul class="issues-list" id="open">
-                                    <li id="add-issue">
-                                        <img class="add-btn-img" src="images/addButton.png" alt="Add issue" />
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="issue-container">
-                                <h2>In Progress</h2>
-                                <ul class="issues-list" id="in-progress">
-                                </ul>
-                            </div>
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <select>
+                        @foreach (var user in users)
+                        {
+                         <option>@user.Email</option>
+                        }
+                    </select>
+                    <button id="saveAssignedTo">Save</button>
+                </div>
+
+            </div>
+            <div class="board-container">
+                <div id="issues">
+                    <div class="issues-block">
+                        <div class="issue-container">
+
+                            <h2>Open</h2>
+                            <ul class="issues-list" id="open">
+                                <li id="add-issue">
+                                    <img class="add-btn-img" src="images/addButton.png" alt="Add issue" />
+                                </li>
+                            </ul>
                         </div>
-                        <div class="issues-block">
-                            <div class="issue-container">
-                                <h2>Resolved</h2>
-                                <ul class="issues-list" id="resolved">
-                                </ul>
-                            </div>
-                            <div class="issue-container">
-                                <h2>Closed</h2>
-                                <ul class="issues-list" id="closed">
-                                </ul>
-                            </div>
+                        <div class="issue-container">
+                            <h2>In Progress</h2>
+                            <ul class="issues-list" id="in-progress">
+                            </ul>
                         </div>
                     </div>
-                    <div class="issues-list" id="deletion-tray">
+                    <div class="issues-block">
+                        <div class="issue-container">
+                            <h2>Resolved</h2>
+                            <ul class="issues-list" id="resolved">
+                            </ul>
+                        </div>
+                        <div class="issue-container">
+                            <h2>Closed</h2>
+                            <ul class="issues-list" id="closed">
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </main>
+                <div class="issues-list" id="deletion-tray">
+                </div>
+            </div>
+        </main>
         </div>
     </body>
 </html>
 
-    <script type="text/javascript">
+<script type="text/javascript">
     let draggables = document.querySelectorAll('.issue')
     let containers = document.querySelectorAll('.issues-list')
     let deletionTray = document.getElementById('deletion-tray')
@@ -395,7 +467,7 @@ else
     })
 
     draggables.forEach(draggable => {
-        console.log("draggables.forEach - line 206");
+        //console.log("draggables.forEach - line 206");
 
         draggable.addEventListener('dragstart', () => {
             draggable.classList.add('dragging')
@@ -428,7 +500,7 @@ else
 
     deletionTray.addEventListener('dragend', e => {
 
-        console.log("deletionTray.addEventListener line 240");
+        //console.log("deletionTray.addEventListener line 240");
         e.preventDefault();
         deletionTray.lastChild.remove()
     })
@@ -448,7 +520,7 @@ else
     }
 
     function issueDoubleClick(el) {
-        console.log("Hello from the issue clicked!!! " + el);
+        //console.log("Hello from the issue clicked!!! " + el);
 
         var elInt = parseInt(el);
 
@@ -461,31 +533,63 @@ else
         xhr.send(elInt);*@
     }
 
-    function newButtonClicked() {
-        //let newIssue = createIssue("Issue Title", "Issue Description")
-        //createButton.insertAdjacentElement("afterend", newIssue);
+    function assignedToClick(assignedToValue) {
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get Save Button
+        var button = document.getElementById("saveAssignedTo");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById(assignedToValue.toString().trim());
+        console.log(assignedToValue.trim());
+        console.log(assignedToValue);
+        console.log(btn);
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        button.addEventListener('click', () => {
+            console.log("Button Save Click!");
+        })
     }
 
-    function createIssue(id, titleMessage, descriptionMessage, durationMessage, assignieMessage, projectMessage) {
+    function createIssue(id, titleMessage, asigneeMessage, durationMessage, assignieMessage, projectMessage) {
         let newIssue = document.createElement("li");
         newIssue.classList.add('issue');
         newIssue.setAttribute("id", id);
         newIssue.setAttribute('draggable', 'true');
 
         newIssue.addEventListener('dragstart', () => {
-            console.log("newIssue.addEventListener dragstart - line 306")
+            //console.log("newIssue.addEventListener dragstart - line 306")
             newIssue.classList.add('dragging')
             deletionTray.style.visibility = 'visible'
             deletionTray.style.height = '30%'
         })
 
         newIssue.addEventListener('dragend', () => {
-            console.log("newIssue.addEventListener draged - line 306")
+            //console.log("newIssue.addEventListener draged - line 306")
             newIssue.classList.remove('dragging')
-            console.log("id of the issue is " + newIssue.id);
+            //console.log("id of the issue is " + newIssue.id);
             deletionTray.style.visibility = 'hidden'
             deletionTray.style.height = '0'
-            console.log(document.getElementById(newIssue.id).parentNode.id);
+            //console.log(document.getElementById(newIssue.id).parentNode.id);
 
             var innerText = document.getElementById(newIssue.id).children[2];
 
@@ -494,59 +598,94 @@ else
             }
 
             var request = new XMLHttpRequest();
-            debugger;
+            //debugger;
             var o = new Object();
             o.issue_id = newIssue.id;
             o.issue_new_state = document.getElementById(newIssue.id).parentNode.id;
 
-            console.log(o.issue_id);
-            console.log(o.newState);
-            console.log(JSON.stringify(o));
-
+            //console.log(o.issue_id);
+            //console.log(o.newState);
+            //console.log(JSON.stringify(o));
 
             request.open('POST', '/Issues/IndexPost', true);
             request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
             request.setRequestHeader('Content-Length', JSON.stringify(o).length);
             request.onreadystatechange = function () {
                 if (request.readyState == 4 && request.status == 200) {
-                    console.log(request.responseText)
+                    //console.log(request.responseText)
                 }
             }
             request.send(JSON.stringify(o));
         })
 
         let title = document.createElement('p')
-        title.classList.add('issue-title')
-        title.setAttribute('contenteditable', 'false');
-        title.innerHTML = titleMessage;
 
-        let description = document.createElement('p')
-        description.classList.add('issue-description')
-        description.setAttribute('contenteditable', 'false');
-        description.innerHTML = descriptionMessage;
+        if (titleMessage == 'undefined' || titleMessage == "" || titleMessage == null)
+        {
+            titleMessage = "New Task";
+        }
+
+        title.classList.add('issue-title')
+        title.setAttribute('contenteditable', 'true');
+        title.innerHTML = titleMessage;
 
         let duration = document.createElement('p')
         duration.classList.add('issue-duration')
-        duration.setAttribute('contenteditable', 'false');
+        duration.setAttribute('contenteditable', 'true');
         duration.innerHTML = durationMessage;
 
-        let assignie = document.createElement('p')
-        assignie.classList.add('issue-duration')
-        assignie.setAttribute('contenteditable', 'false');
-        assignie.innerHTML = assignieMessage;
+        if (assignieMessage == 'undefined' || assignieMessage == "" || assignieMessage == null) {
+             assignieMessage = "UnAsigned";
+        }
+
+        let assignedToId = "assignedTo" + id;
+
+        let assignedTo = document.createElement('p');
+        assignedTo.classList.add('issue-duration');
+        assignedTo.setAttribute("id", assignedToId);
+        assignedTo.setAttribute('contenteditable', 'true');
+        assignedTo.setAttribute('onclick', 'assignedToClick( " ' + assignedToId + ' " )');
+        assignedTo.innerHTML = assignieMessage;
+
+        if (projectMessage == 'undefined' || projectMessage == "" || projectMessage == null) {
+            projectMessage = "Choose Project";
+        }
 
         let project = document.createElement('p')
         project.classList.add('issue-duration')
-        project.setAttribute('contenteditable', 'false');
+        project.setAttribute('contenteditable', 'true');
         project.innerHTML = projectMessage;
+    
+        if (asigneeMessage == 'undefined' || asigneeMessage == "" || asigneeMessage == null) {
+            asigneeMessage = "UnAsigned";
+        }
+
+        let assignee = document.createElement('p')
+        assignee.classList.add('issue-description')
+        assignee.setAttribute('contenteditable', 'true');
+        assignee.innerHTML = asigneeMessage;
 
         newIssue.appendChild(title);
-        newIssue.appendChild(description);
         newIssue.appendChild(duration);
-        newIssue.appendChild(assignie);
+        newIssue.appendChild(assignedTo);
         newIssue.appendChild(project);
+        newIssue.appendChild(assignee);
 
-        newIssue.addEventListener("dblclick", function () { issueDoubleClick(newIssue.id) });
+        newIssue.addEventListener("dblclick", function () {
+            issueDoubleClick(newIssue.id);
+
+            var request = new XMLHttpRequest();
+
+            request.open('POST', '/Issues/CreateNewTask', true);
+            request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+            request.setRequestHeader('Content-Length', JSON.stringify(o).length);
+            request.onreadystatechange = function () {
+                if (request.readyState == 4 && request.status == 200) {
+                    //console.log(request.responseText)
+                }
+            }
+            request.send();
+        });
 
         return newIssue;
     }
@@ -576,5 +715,5 @@ else
             closed.appendChild(issue);
         }
     }
-    </script>
+</script>
 }
