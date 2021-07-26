@@ -4,73 +4,151 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+<style>
+    * {
+        font-family: "Helvetica",sans-serif;
+        box-sizing: border-box;
+    }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
+    input, button, a {
+        outline: none;
+    }
+
+    body {
+        font-size: 16px;
+        background: linear-gradient(145deg, #ffd89b 0%, #19547b 100%) no-repeat fixed;
+        display: flex;
+        flex-direction: column;
+    }
+
+    body, html {
+        min-height: 100%;
+        padding: 0;
+    }
+
+    .form-group {
+        margin-bottom: auto;
+    }
+
+    footer {
+        background: white;
+    }
+
+    .form-container {
+        margin: auto;
+        background: white;
+        max-width: 45rem;
+        width: 90%;
+        border-radius: 16px;
+    }
+
+    .form-content {
+        margin: auto;
+        padding: 0.7rem;
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+
+    .links {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .form-content input {
+        padding: 0.5rem;
+        margin: .5rem 0 .5rem 0;
+        border: none;
+        width: 100%;
+        border-bottom: 1px solid #99A2EA;
+    }
+
+        .form-content input:focus {
+            border: none;
+            border-bottom: 1px solid #4E6AD7;
+        }
+
+    .form-content h1 {
+        margin-top: 0;
+        font-size: 2rem;
+        font-weight: normal;
+    }
+
+    .form-content h2 {
+        font-size: 1.5rem;
+        font-weight: lighter;
+        color: #838592;
+    }
+
+    .form-content button {
+        max-width: 10rem;
+        border-radius: 60px;
+        background-color: #54BDD6;
+        color: white;
+        border: none;
+        padding: .5rem 2.5rem;
+        margin: 4rem 0 .5rem 0;
+    }
+
+    .form-content a {
+        margin: .5rem 0 .5rem 0;
+        color: rgb(20, 20, 240)
+    }
+
+        .form-content a:hover {
+            text-decoration: underline;
+        }
+
+    #error-message {
+        color: red;
+    }
+
+    @@media only screen and (max-width: 890px) {
+        .form-container {
+            min-width: 90%;
+        }
+    }
+</style>
+
+<div class="form-container">
+    <div class="form-content">
+        <form id="registration-form" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h1>Backlog</h1>
+            <h2>Organize your workflow</h2>
+            <label id="error-message"></label>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
-            
+
             <div class="form-group">
                 <label asp-for="Input.FirstName"></label>
-                <input asp-for="Input.FirstName" class="form-control" />
+                <input id="firstName" placeholder="First Name" type="text" asp-for="Input.FirstName" class="form-control" />
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.LastName"></label>
-                <input asp-for="Input.LastName" class="form-control" />
+                <input id="lastName" placeholder="Last Name" type="text" asp-for="Input.LastName" class="form-control" />
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
+                <input id="email" placeholder="Email" type="email" asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
+                <input id ="password" placeholder="Password" type="password" asp-for="Input.Password" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <input id ="confirm-password" placeholder="Confirm Password" type="password" asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to register.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
     </div>
 </div>
 
