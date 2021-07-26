@@ -107,6 +107,30 @@ namespace Time_Sheet_Buddy.Controllers
             //return View();   
         }
 
+        // POST: IssueTrackers/Index
+        // To save every Issue, that is not as it saved in the DataBase
+        [IgnoreAntiforgeryToken]
+        public ActionResult IndexChange([FromBody] AssignedToIdValue model)
+        {
+            string issueId = model.propVal_id;
+            string valueTypeValue = model.propVal_new_value;
+            string valueTypeTypeValue = model.propVal_Type;
+
+            int issueIdInt = int.Parse(issueId);
+
+            var issue = _context.Issue.Find(issueIdInt);
+
+            if(valueTypeTypeValue == "AssigendTo")
+                issue.AssignedTo = valueTypeValue;
+            else if(valueTypeTypeValue == "Project")
+                issue.Project = valueTypeValue;
+
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+            //View("Index");
+            //return View();   
+        }
+
         // GET: Issues/Details/5
         public async Task<IActionResult> Details(int? id)
         {

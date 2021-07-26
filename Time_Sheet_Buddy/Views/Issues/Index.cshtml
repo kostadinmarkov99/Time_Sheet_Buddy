@@ -73,6 +73,10 @@
         flex-direction: row;
     }
 
+    .issue-duration {
+        text-align: center;
+    }
+
     .issue-container h2 {
         margin: .5rem;
     }
@@ -165,6 +169,10 @@
             overflow-y: scroll;
         }
 
+        .issue-duration {
+            text-align: center;
+        }
+
         .issue-container {
             width: 100%;
             min-height: 40vh;
@@ -174,6 +182,10 @@
 
     @@media (min-width: 1200px) .container {
         width: 100%;
+
+        .issue-duration {
+            text-align: center;
+        }
 
         .issues-list {
             overflow-y: scroll;
@@ -193,6 +205,10 @@
 
         .issues-list {
             overflow-y: scroll;
+        }
+
+        .issue-duration {
+            text-align: center;
         }
 
         .issues-block {
@@ -228,8 +244,32 @@
         background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     }
 
+    /* The Modal (background) */
+    .modalProj {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
     /* Modal Content */
     .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* Modal Content */
+    .modal-contentProj {
         background-color: #fefefe;
         margin: auto;
         padding: 20px;
@@ -245,12 +285,28 @@
         font-weight: bold;
     }
 
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
+    /* The Close Button */
+    .closeProj {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .closeProj:hover,
+    ..closeProj:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
 </style>
 <h2></h2>
 
@@ -401,16 +457,36 @@ else
                 <!-- Modal content -->
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <select>
+                    <select id="selectAssignedTo">
                         @foreach (var user in users)
                         {
-                         <option>@user.Email</option>
+                            <option>@user.UserName</option>
                         }
                     </select>
                     <button id="saveAssignedTo">Save</button>
                 </div>
 
             </div>
+
+            <!-- Trigger/Open The Modal -->
+            <div id="myBtnProj">Open Modal</div>
+            <!-- The Modal -->
+            <div id="myModalProj" class="modalProj">
+
+                <!-- Modal content -->
+                <div class="modal-contentProj">
+                    <span class="closeProj">&times;</span>
+                    <select id="selectProj">
+                        @foreach (var user in Model)
+                        {
+                            <option>@user.Project</option>
+                        }
+                    </select>
+                    <button id="saveProj">Save</button>
+                </div>
+
+            </div>
+
             <div class="board-container">
                 <div id="issues">
                     <div class="issues-block">
@@ -566,7 +642,93 @@ else
         }
 
         button.addEventListener('click', () => {
-            console.log("Button Save Click!");
+            var select = document.getElementById('selectAssignedTo');
+            var value = select.options[select.selectedIndex].value;
+            console.log(value); // en
+            modal.style.display = "none";
+            btn.innerText = "Assigned To: " +  value;
+
+            assignedToChange(assignedToValue, value, "assignedTo");
+        })
+    }
+
+    function assignedToChange(assignedToValue, value, valueType) {
+        console.log(assignedToValue);
+
+        var issueId = "";
+        if (valueType == "assignedTo")
+            issueId = assignedToValue.substr(11, assignedToValue.length);
+        else if (valueType == "project")
+            issueId = assignedToValue.substr(10, assignedToValue.length);
+        console.log(issueId)
+        console.log(value);
+
+        var request = new XMLHttpRequest();
+        //debugger;
+        var o = new Object();
+        o.propVal_id = issueId;
+        o.propVal_new_value = value;
+        if (valueType == "assignedTo")
+            o.propVal_Type = "AssigendTo";
+        else if (valueType == "project")
+            o.propVal_Type = "Project";
+
+        //console.log(o.issue_id);
+        //console.log(o.newState);
+        //console.log(JSON.stringify(o));
+
+        request.open('POST', '/Issues/IndexChange', true);
+        request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+        request.setRequestHeader('Content-Length', JSON.stringify(o).length);
+        request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+                //console.log(request.responseText)
+            }
+        }
+        request.send(JSON.stringify(o));
+
+    }
+
+    function projClick(projId) {
+        // Get the modal
+        var modalProj = document.getElementById("myModalProj");
+
+        // Get Save Button
+        var buttonProj = document.getElementById("saveProj");
+
+        // Get the button that opens the modal
+        var btnProj = document.getElementById(projId.toString().trim());
+        console.log(projId.trim());
+        console.log(projId);
+        console.log(btnProj);
+        // Get the <span> element that closes the modal
+        var spanProj = document.getElementsByClassName("closeProj")[0];
+
+        // When the user clicks the button, open the modal
+        btnProj.onclick = function () {
+            modalProj.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        spanProj.onclick = function () {
+            modalProj.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modalProj) {
+                modalProj.style.display = "none";
+            }
+        }
+
+        buttonProj.addEventListener('click', () => {
+            var selectProj = document.getElementById('selectProj');
+            var valueProj = selectProj.options[selectProj.selectedIndex].value;
+            console.log(valueProj); // en
+            modalProj.style.display = "none";
+            btnProj.innerText = "Project: " + valueProj;
+
+            assignedToChange(projId, valueProj, "project");
         })
     }
 
@@ -591,10 +753,13 @@ else
             deletionTray.style.height = '0'
             //console.log(document.getElementById(newIssue.id).parentNode.id);
 
-            var innerText = document.getElementById(newIssue.id).children[2];
-
-            if (document.getElementById(newIssue.id).parentNode.id == "closed") {
-                innerText.textContent = "0";
+            var innerText = document.getElementById(newIssue.id).children[1];
+            //debugger;
+            var state = document.getElementById(newIssue.id).parentNode.id;
+            console.log(state);
+            console.log(state == "closed");
+            if (state == "closed") {
+                innerText.innerText = "0";
             }
 
             var request = new XMLHttpRequest();
@@ -632,7 +797,9 @@ else
         let duration = document.createElement('p')
         duration.classList.add('issue-duration')
         duration.setAttribute('contenteditable', 'true');
-        duration.innerHTML = durationMessage;
+        duration.innerHTML = "Duration: " + durationMessage;
+
+        console.log(assignieMessage);
 
         if (assignieMessage == 'undefined' || assignieMessage == "" || assignieMessage == null) {
              assignieMessage = "UnAsigned";
@@ -645,17 +812,21 @@ else
         assignedTo.setAttribute("id", assignedToId);
         assignedTo.setAttribute('contenteditable', 'true');
         assignedTo.setAttribute('onclick', 'assignedToClick( " ' + assignedToId + ' " )');
-        assignedTo.innerHTML = assignieMessage;
+        assignedTo.innerHTML = "Assigned To: " + assignieMessage;
 
         if (projectMessage == 'undefined' || projectMessage == "" || projectMessage == null) {
             projectMessage = "Choose Project";
         }
 
+        let projId = "projectId" + id;
+
         let project = document.createElement('p')
         project.classList.add('issue-duration')
+        project.setAttribute("id", projId);
         project.setAttribute('contenteditable', 'true');
-        project.innerHTML = projectMessage;
-    
+        project.setAttribute('onclick', 'projClick( " ' + projId + ' " )');
+        project.innerHTML = "Project: " + projectMessage;
+
         if (asigneeMessage == 'undefined' || asigneeMessage == "" || asigneeMessage == null) {
             asigneeMessage = "UnAsigned";
         }
@@ -663,7 +834,7 @@ else
         let assignee = document.createElement('p')
         assignee.classList.add('issue-description')
         assignee.setAttribute('contenteditable', 'true');
-        assignee.innerHTML = asigneeMessage;
+        assignee.innerHTML = "Assignee: " + asigneeMessage;
 
         newIssue.appendChild(title);
         newIssue.appendChild(duration);
@@ -699,19 +870,19 @@ else
         let closed = document.getElementById("closed");
         if (model[i].state == "New") {
 
-            let issue = createIssue(model[i].id, model[i].title, model[i].description, model[i].duration, model[i].assignie, model[i].project);
+            let issue = createIssue(model[i].id, model[i].title, model[i].assignee, model[i].duration, model[i].assignedTo, model[i].project);
             open.appendChild(issue);
         }
         else if (model[i].state == "In Progress") {
-            let issue = createIssue(model[i].id, model[i].title, model[i].description, model[i].duration, model[i].assignie, model[i].project);
+            let issue = createIssue(model[i].id, model[i].title, model[i].assignee, model[i].duration, model[i].assignedTo, model[i].project);
             inProgress.appendChild(issue);
         }
         else if (model[i].state == "Active") {
-            let issue = createIssue(model[i].id, model[i].title, model[i].description, model[i].duration, model[i].assignie, model[i].project);
+            let issue = createIssue(model[i].id, model[i].title, model[i].assignee, model[i].duration, model[i].assignedTo, model[i].project);
             resolved.appendChild(issue);
         }
         else if (model[i].state == "Closed") {
-            let issue = createIssue(model[i].id, model[i].title, model[i].description, "0", model[i].assignie, model[i].project);
+            let issue = createIssue(model[i].id, model[i].title, model[i].assignee, "0", model[i].assignedTo, model[i].project);
             closed.appendChild(issue);
         }
     }
