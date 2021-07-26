@@ -1,8 +1,59 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<style>
+    .container {
+        position: relative;
+        text-align: center;
+        color: white;
+    }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    .top-left {
+        position: absolute;
+        top: 8px;
+        left: 16px;
+        position: absolute;
+        top: 8px;
+        left: 16px;
+        font-size: 2.75rem;
+        line-height: 1.18181818;
+        margin-bottom: 16px;
+        color: #253858;
+        letter-spacing: 0;
+        margin-top: 0;
+    }
+
+    .pText {
+        text-align: center;
+        font-size: 1.25rem;
+        letter-spacing: .3px;
+        line-height: 1.4;
+        color: #42526e;
+        margin-bottom: 0;
+    }
+
+    .heading {
+        text-align: center;
+        font-size: 2.25rem;
+        line-height: 1.33333333;
+        color: #253858;
+        letter-spacing: 0;
+        margin-top: 0;
+        font-size: 1.5rem;
+        line-height: 1.33333333;
+        margin-bottom: 14px;
+        font-weight: 500;
+        font-family: Charlie Display, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+        vertical-align: baseline;
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+</style>
+
+<div class="container"></div>
+<img src="~/images/welcomePage.png" alt="Snow" style="width:100%;">
+<div class="top-left">
+    <h1 class="top-left"> The #1 software development tool for organization of your workflow  </h1>
+</div>
+<div class="bottom">
+    <h2 class="heading"> The best software teams ship early and often. </h2>
+    <p class="pText">Time Sheet Buddy Software is built for every member of your software team to plan,<br> track, and release great software.</p>
 </div>
