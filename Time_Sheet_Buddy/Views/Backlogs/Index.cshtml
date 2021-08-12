@@ -1,0 +1,156 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering;
+@using Time_Sheet_Buddy.Models;
+
+@model IEnumerable<Time_Sheet_Buddy.Entities.Projectcs>
+
+@{
+    var projects = ViewData["ProjectsList"] as List<ApplicationUser>;
+}
+
+<style>
+    .add-btn-img {
+        width: 3rem;
+        height: 2rem;
+        display: flex;
+        justify-self: flex-start;
+    }
+
+    /* Modal Content */
+    .modal-contentProj {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* The Close Button */
+    .closeProj {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .closeProj:hover,
+    ..closeProj:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* The Modal (background) */
+    .modalProj {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+</style>
+
+
+<!-- The Modal -->
+<div id="myModalProj" class="modalProj">
+
+    <!-- Modal content -->
+    <div class="modal-contentProj">
+        <span class="closeProj">&times;</span>
+        <input id="projNameInput"/>
+        <button id="saveProj">Save</button>
+    </div>
+
+</div>
+
+<div id="newProject">
+    <label>
+        Add New Project (Backlog)
+    </label>
+    <input id="addProjectButton" onclick="addNewProjectClicked()" type="image" class="add-btn-img" src="~/images/addProject.png" alt="Add Project" />
+</div>
+<div id="select">
+    <select id="id_project_list" name="id_project_list">
+        @foreach (var project in Model)
+        {
+            <option>@project.Title</option>
+        }
+    </select>
+    <input type="submit" value="Open Backlog" onclick="backlogSelected()" />
+</div>
+
+<script>
+    function addNewProjectClicked() {
+        // Get the modal
+        var modalProj = document.getElementById("myModalProj");
+
+        // Get Save Button
+        var buttonProj = document.getElementById("saveProj");
+
+        // Get the button that opens the modal
+        var btnProj = document.getElementById("newProject");
+        //console.log(projId.trim());
+        //console.log(projId);
+        //console.log(btnProj);
+        // Get the <span> element that closes the modal
+        var spanProj = document.getElementsByClassName("closeProj")[0];
+
+        // When the user clicks the button, open the modal
+        btnProj.onclick = function () {
+            modalProj.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        spanProj.onclick = function () {
+            modalProj.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modalProj) {
+                modalProj.style.display = "none";
+            }
+        }
+
+        buttonProj.addEventListener('click', () => {
+            var newProj = document.getElementById('projNameInput');
+            var valueProj = newProj.value;
+            modalProj.style.display = "none";
+            //btnProj.innerText = "Project: " + valueProj;
+
+            createNewBacklog(valueProj);
+        })
+    }
+
+    function backlogSelected() {
+        var selectProj = document.getElementById('id_project_list');
+        console.log(selectProj);
+        var valueProj = selectProj.options[selectProj.selectedIndex].value;
+        console.log(valueProj);
+
+        window.location.href = "Backlogs/ProjectBacklog?proj=" + valueProj;
+    }
+
+    function createNewBacklog(newBacklogName) {
+        var request = new XMLHttpRequest();
+        window.location.href = "Backlogs/ProjectBacklog?proj=" + newBacklogName;
+        //debugger;
+       @* var o = new Object();
+        o.newBacklogName = newBacklogName;
+
+        request.open('POST', '/Backlogs/BacklogCreation', true);
+        request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+        request.setRequestHeader('Content-Length', JSON.stringify(o).length);
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200) {
+                //console.log(request.responseText)
+            }
+        }
+        request.send(JSON.stringify(o));*@
+    }
+</script>

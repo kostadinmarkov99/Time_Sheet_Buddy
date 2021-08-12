@@ -55,5 +55,7 @@ namespace Time_Sheet_Buddy.Data
         public DbSet<Time_Sheet_Buddy.Entities.Projectcs> Projectcs { get; set; }
 
         public DbSet<Time_Sheet_Buddy.Entities.Stete> Stetes { get; set; }
+
+        public DbSet<Time_Sheet_Buddy.Entities.Backlog> Backlogs { get; set; }
     }
 }

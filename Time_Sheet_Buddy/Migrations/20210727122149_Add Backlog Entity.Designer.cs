@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Time_Sheet_Buddy.Data;
 
 namespace Time_Sheet_Buddy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210727122149_Add Backlog Entity")]
+    partial class AddBacklogEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,9 +183,6 @@ namespace Time_Sheet_Buddy.Migrations
                     b.Property<string>("Assignee")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("BacklogId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -204,8 +203,6 @@ namespace Time_Sheet_Buddy.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BacklogId");
 
                     b.ToTable("Issue");
                 });
@@ -370,18 +367,6 @@ namespace Time_Sheet_Buddy.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Time_Sheet_Buddy.Entities.Issue", b =>
-                {
-                    b.HasOne("Time_Sheet_Buddy.Entities.Backlog", null)
-                        .WithMany("Issues")
-                        .HasForeignKey("BacklogId");
-                });
-
-            modelBuilder.Entity("Time_Sheet_Buddy.Entities.Backlog", b =>
-                {
-                    b.Navigation("Issues");
                 });
 #pragma warning restore 612, 618
         }
