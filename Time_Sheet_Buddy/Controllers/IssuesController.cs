@@ -11,6 +11,7 @@ using Time_Sheet_Buddy.Entities;
 using Time_Sheet_Buddy.Models;
 using System.Data;
 using Microsoft.AspNetCore.Http;
+using System.Dynamic;
 
 namespace Time_Sheet_Buddy.Controllers
 {
@@ -232,14 +233,32 @@ namespace Time_Sheet_Buddy.Controllers
                 return NotFound();
             }
 
-            ViewBag.Users = new SelectList(_context.Users, "Email", "Email");
+            var users1 = _context.Users;
+            SelectList list1 = new SelectList(users1);
+            ViewBag.Users = list1.ToList();
+            ViewData["Users"] = users1.ToList();
+
+            /* var states = _context.Stetes;
+             SelectList states1 = new SelectList(states);
+             ViewBag.States = states1.ToList();*/
+            ViewData["States"] = _context.Stetes.ToList();
+
+            //ViewBag.Users = new SelectList(_context.Users, "Email", "Email");
 
 
-            ViewBag.Projects = new SelectList(_context.Projectcs, "Title", "Title");
+            //ViewBag.Projects = new SelectList(_context.Projectcs, "Title", "Title");
 
             //ViewData["Users"] = users;
 
             return View(issue);
+        }
+
+        // To save every Issue, that is not as it saved in the DataBase
+        [IgnoreAntiforgeryToken]
+        public void EditChange([FromBody] issueModel model)
+        {
+            string modelDescr = model.Description;
+            string modelState = model.State;
         }
 
         // POST: Issues/Edit/5
@@ -249,6 +268,16 @@ namespace Time_Sheet_Buddy.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Duration,Assignie,Date,State,Project")] Issue issue)
         {
+            var users1 = _context.Users;
+            SelectList list1 = new SelectList(users1);
+            ViewBag.Users = list1.ToList();
+            ViewData["Users"] = users1.ToList();
+
+            /* var states = _context.Stetes;
+             SelectList states1 = new SelectList(states);
+             ViewBag.States = states1.ToList();*/
+            ViewData["States"] = _context.Stetes.ToList();
+
             if (id != issue.Id)
             {
                 return NotFound();

@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Rendering;
 @using Time_Sheet_Buddy.Models;
+@using Time_Sheet_Buddy.Entities
 
 @model Time_Sheet_Buddy.Entities.Issue
 
@@ -20,136 +21,179 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>IssueTracker</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
 
-        @if (!User.IsInRole("Administrator"))
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+<div class="form-horizontal">
 
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        }
+    <h4>IssueTracker</h4>
+    <hr />
+    @Html.HiddenFor(model => model.Id)
 
-        @if (!User.IsInRole("Administrator"))
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        }
-        @if (!User.IsInRole("Administrator"))
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                    @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        }
-        @if (!User.IsInRole("Administrator"))
-        {
-            <div class="form-group">
-                @Html.DropDownListFor(m => m.AssignedTo, (SelectList)ViewBag.Users, "Seleccionar", new { @class = "form-control", @readonly = "readonly" })
-            </div>
-        }
-        else
-        {
-            <div class="form-group">
-                @Html.DropDownListFor(m => m.AssignedTo, (SelectList)ViewBag.Users, "Seleccionar", new { @class = "form-control" })
-            </div>
-        }
-
-        @if (!User.IsInRole("Administrator"))
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        }
-
+    @if (User.IsInRole("Administrator"))
+    {
         <div class="form-group">
-            @Html.DropDownListFor(model => model.State, (SelectList)ViewBag.States, "--Select", new { @class = "form-control" })
-        </div>
-
-        @if (!User.IsInRole("Administrator"))
-        {
-            <div class="form-group">
-                @Html.DropDownListFor(model => model.Project, (SelectList)ViewBag.Projects, "--Select--", new { @class = "form-control", @readonly = "readonly" })
-            </div>
-        }
-        else
-        {
-            <div class="form-group">
-                @Html.DropDownListFor(model => model.Project, (SelectList)ViewBag.Projects, "--Select--", new { @class = "form-control" })
-            </div>
-        }
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.DropDownListFor(m => m.AssignedTo, (SelectList)ViewBag.Users, "Seleccionar", new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="closeProj">&times;</span>
+            <select id="selectProj">
+                @foreach (var state in (IEnumerable<Stete>)ViewData["States"])
+                {
+                    <option>@state.Title</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button id="savedChanges" onclick="savedChanges()">Save</button>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="close">&times;</span>
+            <select id="selectAssignedTo">
+                @foreach (var user in users)
+                {
+                    <option>@user.UserName</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssignedTo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AssignedTo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AssignedTo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="closeProj">&times;</span>
+            <select id="selectProj">
+                @foreach (var state in (IEnumerable<Stete>)ViewData["States"])
+                {
+                    <option>@state.Title</option>
+                }
+            </select>
+        </div>
+
+    }
+</div>
+
+    <button id="savedChangesBtn" onclick="addChange()">Save</button>
+
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
     </div>
+    <script>
+    function addChange() {    
+        var request = new XMLHttpRequest();
+        //debugger;
+
+        //console.log(docuent.getElementById("Title"));
+
+        var o = new Object();
+        o.id = @Model.Id;
+        o.Title = "123";
+        o.Description = "asdasd";
+        o.Duration =1.5;
+        o.AssignedTo = "sss";
+        o.State = "New";
+
+        //console.log(o.issue_id);
+        //console.log(o.newState);
+        //console.log(JSON.stringify(o));
+
+        request.open('POST', '/Issues/EditChange', true);
+        request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+        request.setRequestHeader('Content-Length', JSON.stringify(o).length);
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200) {
+                //console.log(request.responseText)
+            }
+        }
+        request.send(JSON.stringify(o));
+    }
+
+    @*var btn = document.getElementById("savedChangesBtn");
+
+    btn.addEventListener('click', e => {
+        //let newIssue = createIssue("Issue Title", "Issue Description")
+        //createButton.insertAdjacentElement("afterend", newIssue);
+        console.log("YES");
+    })
+*@
+    //btn.addEventListener('click', () => {
+        @**@
+    //})
+
+    </script>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
