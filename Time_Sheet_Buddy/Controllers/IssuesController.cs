@@ -255,10 +255,57 @@ namespace Time_Sheet_Buddy.Controllers
 
         // To save every Issue, that is not as it saved in the DataBase
         [IgnoreAntiforgeryToken]
-        public void EditChange([FromBody] issueModel model)
+        //[Route("Issues/Details")]
+        public async Task EditChange([FromBody] issueModel model)
         {
-            string modelDescr = model.Description;
-            string modelState = model.State;
+            int modelId = model.Id;
+            string modelTitle = model.Title;
+            string modelDescription = model.Description;
+            string modelState = model.State.ToLower();
+            double modelDuration = model.Duration;
+            string modelAssignedTo = model.AssignedTo;
+
+            string newState = "New";
+            if (modelState == "open")
+                newState = "New";
+            else if (modelState == "in progress")
+                newState = "In Progress";
+            else if (modelState == "resolved")
+                newState = "Active";
+            else if (modelState == "closed")
+                newState = "Closed";
+
+            Issue issues = _context.Issue.Find(modelId);
+
+            if (modelId == 0)
+            {
+                return;
+                //return NotFound();
+            }
+
+            var issue = _context.Issue.Find(modelId);
+            if (issue == null)
+            {
+
+                return;
+                //return NotFound();
+            }
+            issue.Title = modelTitle;
+            issue.Duration = modelDuration;
+            issue.State = newState;
+            if (newState == "Closed")
+                issue.Duration = 0;
+            issue.Description = modelDescription;
+            issue.AssignedTo = modelAssignedTo;
+
+            _context.Update(issue);
+             await _context.SaveChangesAsync();
+            //var issueReturn = await _context.Issue
+                //.FirstOrDefaultAsync(m => m.Id == modelId);
+            //return View("./Details", issueReturn);
+            //return Redirect("Issues/Details?" + id);
+            //return RedirectToActionPermanent("Details", "Issues", new { id = modelId });
+            //return RedirectToAction("Details",  new { id = modelId });
         }
 
         // POST: Issues/Edit/5
