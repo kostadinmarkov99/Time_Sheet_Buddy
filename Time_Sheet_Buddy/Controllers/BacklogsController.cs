@@ -74,6 +74,26 @@ namespace Time_Sheet_Buddy.Controllers
             ViewBag.ProjectsList = projectList.ToList();
             ViewData["Users"] = users.ToList();
             var modelIssue = _context.Projectcs.ToList();
+
+            Dictionary<string, int> backlogItemsCount = new Dictionary<string, int>();
+
+            var allBacklogs = _context.Backlogs;
+
+            foreach (var backlog in allBacklogs)
+            {
+                string backlogName = backlog.Name;
+                int backlogId = backlog.Id;
+
+                var currentBacklogIssues = _context.Backlogs
+                .Where(b => b.Id.Equals(backlogId)).SelectMany(i => i.Issues).ToList();
+
+                var backlogItmIssuesCount = currentBacklogIssues.Count;
+
+                backlogItemsCount.Add(backlogName, backlogItmIssuesCount);
+            }
+
+            ViewBag.BacklogItemsCount = backlogItemsCount;
+
             return View(modelIssue);
         }
         

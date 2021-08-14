@@ -5,6 +5,8 @@
 
 @{
     var projects = ViewData["ProjectsList"] as List<ApplicationUser>;
+
+    var itemsCount = ViewData["BacklogItemsCount"] as Dictionary<string, int>;
 }
 
 <style>
@@ -32,12 +34,12 @@
         font-weight: bold;
     }
 
-    .closeProj:hover,
-    ..closeProj:focus {
-        color: #000;
-        text-decoration: none;
-        cursor: pointer;
-    }
+        .closeProj:hover,
+        ..closeProj:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
     /* The Modal (background) */
     .modalProj {
@@ -53,6 +55,41 @@
         background-color: rgb(0,0,0); /* Fallback color */
         background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     }
+
+    #backlogs {
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+     #backlogs td, #backlogs th {
+         border: 1px solid #ddd;
+         padding: 8px;
+     }
+
+     #backlogs tr:hover {
+         background-color: #ddd;
+     }
+
+     #backlogs th {
+         padding-top: 12px;
+         padding-bottom: 12px;
+         text-align: left;
+         background-color: #04AA6D;
+         color: white;
+     }
+
+    tr {
+        cursor: pointer;
+        transition: all .25s ease-in-out
+    }
+
+    .selected {
+        background-color: red;
+        font-weight: bold;
+        color: #fff;
+    }
 </style>
 
 
@@ -62,7 +99,7 @@
     <!-- Modal content -->
     <div class="modal-contentProj">
         <span class="closeProj">&times;</span>
-        <input id="projNameInput"/>
+        <input id="projNameInput" />
         <button id="saveProj">Save</button>
     </div>
 
@@ -75,16 +112,48 @@
     <input id="addProjectButton" onclick="addNewProjectClicked()" type="image" class="add-btn-img" src="~/images/addProject.png" alt="Add Project" />
 </div>
 <div id="select">
-    <select id="id_project_list" name="id_project_list">
-        @foreach (var project in Model)
+
+    <table id="backlogs">
+        <tr>
+            <th>Project Name</th>
+            <th>Number of issues</th>
+        </tr>
+        @foreach (var project in itemsCount)
         {
-            <option>@project.Title</option>
+            <tr>
+                <td>@project.Key</td>
+                <td>@project.Value</td>
+            </tr>
         }
-    </select>
+    </table>
+
     <input type="submit" value="Open Backlog" onclick="backlogSelected()" />
 </div>
 
 <script>
+    function selectedRow() {
+
+        var index,
+            table = document.getElementById("backlogs");
+
+        for (var i = 1; i < table.rows.length; i++) {
+            table.rows[i].onclick = function () {
+                // remove the background from the previous selected row
+                if (typeof index !== "undefined") {
+                    table.rows[index].classList.toggle("selected");
+                }
+                console.log(typeof index);
+                // get the selected row index
+                index = this.rowIndex;
+                // add class selected to the row
+                this.classList.toggle("selected");
+                console.log(typeof index);
+            };
+        }
+
+    }
+    selectedRow();
+
     function addNewProjectClicked() {
         // Get the modal
         var modalProj = document.getElementById("myModalProj");
@@ -128,10 +197,16 @@
     }
 
     function backlogSelected() {
-        var selectProj = document.getElementById('id_project_list');
+        var selectedTd = document.getElementsByClassName("selected");
+
+        var delectedTr = selectedTd[0];
+
+        var valueProj = delectedTr.getElementsByTagName("td")[0].innerText;
+
+        @*var selectProj = document.getElementById('id_project_list');
         console.log(selectProj);
         var valueProj = selectProj.options[selectProj.selectedIndex].value;
-        console.log(valueProj);
+        console.log(valueProj);*@
 
         window.location.href = "Backlogs/ProjectBacklog?proj=" + valueProj;
     }
