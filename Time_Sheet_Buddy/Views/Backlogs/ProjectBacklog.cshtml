@@ -132,7 +132,7 @@
     #deletion-tray {
         margin: .2rem;
         width: 100%;
-        background-image: url(../../wwwroot/images/trash.png);
+        background-image: url('../../wwwroot/images/trash.png');
         background-color: #ffeded;
         background-repeat: no-repeat;
         background-size: 5rem;
@@ -154,8 +154,16 @@
         justify-self: flex-start;
     }
 
-    @@media only screen and (max-width: 1024px) {
+    .delete-img {
+        margin: 0 auto;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        justify-self: flex-start;
+    }
 
+
+    @@media only screen and (max-width: 1024px) {
         main {
             font-size: small;
             padding: .5rem 2%;
@@ -318,23 +326,23 @@
             @Html.ActionLink("Create New", "Create")
         </p>
     }
-    using (Html.BeginForm("Index", "Issues"))
-    {
-        <select id="id_filter_list" name="id_filter_list">
-            @foreach (var user in users)
+
+    <select id="id_filter_list" name="id_filter_list">
+        @foreach (var user in users)
+        {
+            if (lastChoice != null && lastChoice == user.UserName)
             {
-                if (lastChoice != null && lastChoice == user.Email)
-                {
-                    <option selected>@user.Email</option>
-                }
-                else
-                {
-                    <option>@user.Email</option>
-                }
+                <option selected>@user.UserName</option>
             }
-        </select>
-        <input type="submit" value="Filter" />
-    }
+            else
+            {
+                <option>@user.UserName</option>
+            }
+        }
+    </select>
+    <input onclick="filterTriggered()" type="submit" value="Filter" />
+
+
 
     <table class="table">
         <tr>
@@ -416,38 +424,37 @@ else
             <header class="main-header">
                 <h1 id="header">Backlog @currentProject</h1>
             </header>
-            @using (Html.BeginForm("Index", "Issues"))
-            {
-                <select id="id_filter_list" name="id_filter_list">
-                    <option>Show All</option>
-                    @foreach (var user in users)
+
+            <select id="id_filter_list" name="id_filter_list">
+                <option>Show All</option>
+                @foreach (var user in users)
+                {
+                    if (lastChoice != null && lastChoice.Split(' ')[0].ToString() == user.UserName.ToString())
                     {
-                        if (lastChoice != null && lastChoice.Split(' ')[0].ToString() == user.Email.ToString())
+                        if (currUser != null && currUser.ToString() == user.Id.ToString())
                         {
-                            if (currUser != null && currUser.ToString() == user.Id.ToString())
-                            {
-                                <option selected>@user.Email (<i>Me</i>)</option>
-                            }
-                            else
-                            {
-                                <option selected>@user.Email</option>
-                            }
+                            <option selected>@user.UserName (<i>Me</i>)</option>
                         }
                         else
                         {
-                            if (currUser != null && currUser.ToString() == user.Id.ToString())
-                            {
-                                <option>@user.Email (<i>Me</i>)</option>
-                            }
-                            else
-                            {
-                                <option>@user.Email</option>
-                            }
+                            <option selected>@user.UserName</option>
                         }
                     }
-                </select>
-                <input type="submit" value="Filter" />
-            }
+                    else
+                    {
+                        if (currUser != null && currUser.ToString() == user.Id.ToString())
+                        {
+                            <option>@user.UserName (<i>Me</i>)</option>
+                        }
+                        else
+                        {
+                            <option>@user.UserName</option>
+                        }
+                    }
+                }
+            </select>
+            <input onclick="filterTriggered()" type="submit" value="Filter" />
+
             <main>
                 <!-- The Modal -->
                 <div id="myModal" class="modal">
@@ -515,6 +522,7 @@ else
                         </div>
                     </div>
                     <div class="issues-list" id="deletion-tray">
+                        <img class="delete-img" src="~/images/trash.png" alt="Add issue" />
                     </div>
                 </div>
             </main>
@@ -522,7 +530,7 @@ else
     </body>
 </html>
 
-    <script type="text/javascript">
+<script type="text/javascript">
     let draggables = document.querySelectorAll('.issue')
     let containers = document.querySelectorAll('.issues-list')
     let deletionTray = document.getElementById('deletion-tray')
@@ -585,6 +593,31 @@ else
         e.preventDefault();
         deletionTray.lastChild.remove()
     })
+
+        function filterTriggered() {
+
+            var select = document.getElementById('id_filter_list');
+            var value = select.options[select.selectedIndex].value + "";
+
+            console.log(value);
+
+            var headerProj = document.getElementById("header");
+            var headerProjName = headerProj.innerText;
+
+            console.log(headerProjName);
+
+            var projectName = headerProjName.substr(8, headerProjName.length).trim();
+
+            console.log(projectName);
+
+            //console.log(projectName);
+            //console.log("Toyota");
+
+            //window.location = "Backlogs"
+            window.location = "@(Url.Action("ProjectBacklog", "Backlogs"))" + "?proj=" + projectName + "&selectedFilter=" + value;
+
+
+    }
 
     function getDragAfterElement(container, y) {
         const draggableElements = [...container.querySelectorAll('.issue:not(.dragging)')]
@@ -751,6 +784,10 @@ else
         })
 
         newIssue.addEventListener('dragend', () => {
+            window.addEventListener("wheel", event => {
+
+                console.info("Hello");
+            });
             //console.log("newIssue.addEventListener draged - line 306")
             newIssue.classList.remove('dragging')
             //console.log("id of the issue is " + newIssue.id);
@@ -891,5 +928,5 @@ else
             closed.appendChild(issue);
         }
     }
-    </script>
+</script>
 }

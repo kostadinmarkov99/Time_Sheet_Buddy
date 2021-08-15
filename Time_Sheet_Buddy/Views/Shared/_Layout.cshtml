@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> SignInManager
+@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,13 +26,19 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>                 
-                            <li class="nav-item">
-                                <a class="navbar-brand" asp-controller="Issues" asp-action="Index">Backlog</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="navbar-brand" asp-controller="Backlogs" asp-action="Index">Backlogs</a>
-                            </li>
+                        </li>
+                        @if (this.SignInManager.IsSignedIn(this.User))
+                        {
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <li class="nav-item">
+                                    <a class="navbar-brand" asp-controller="Issues" asp-action="Index">Backlog</a>
+                                </li>
+                            }
+                        <li class="nav-item">
+                            <a class="navbar-brand" asp-controller="Backlogs" asp-action="Index">Backlogs</a>
+                        </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

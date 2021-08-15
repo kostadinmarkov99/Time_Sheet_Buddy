@@ -225,7 +225,9 @@ else
             </form>
             <div>
                 <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-                <a asp-action="Index">Back to List</a>
+                <div>
+                    @Html.ActionLink("Back to List", "ProjectBacklog", "Backlogs", new { proj = Model.Project }, null)
+                </div>
             </div>
 
         </div>

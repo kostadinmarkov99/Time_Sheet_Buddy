@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace Time_Sheet_Buddy.Controllers
         }
 
         // GET: Backlogs
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var selectedValue = "Show All";
@@ -96,7 +98,7 @@ namespace Time_Sheet_Buddy.Controllers
 
             return View(modelIssue);
         }
-        
+
         public async void ProjectBacklogGet([FromBody] SelectedProject selectedProject)
         {
             
@@ -107,43 +109,47 @@ namespace Time_Sheet_Buddy.Controllers
             await ProjectBacklog(proj);
         }
 
-        public async Task<IActionResult> ProjectBacklog(string proj)
+        [Authorize]
+        public async Task<IActionResult> ProjectBacklog(string proj = "", string selectedFilter = "")
         {
             var selectedValue = "Show All";
-            try
-            {
-                selectedValue = Request.Form["id_filter_list"];
-            }
-            catch (Exception e) { }
+            
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (selectedValue != null && selectedValue != "Show All")
                 selectedValue = selectedValue.Split(' ')[0];
 
-            if (selectedValue != "Show All")
+            var users = _context.Users;
+            SelectList list = null;
+
+            if (selectedFilter != "" && selectedFilter != "Show All")
             {
-                var users1 = _context.Users;
+                if (selectedFilter.Contains("(Me)"))
+                {
+                    var neededIndex = selectedFilter.IndexOf(" (Me)");
+                    selectedFilter = selectedFilter.Substring(0, neededIndex);
+                }
+
+                    var users1 = _context.Users;
                 SelectList list1 = new SelectList(users1);
                 ViewBag.Users = list1.ToList();
                 ViewData["Users"] = users1.ToList();
                 var filteredIssues = _context.Issue
-                    .Where(i => i.AssignedTo.Equals(selectedValue))
+                    .Where(i => i.AssignedTo == selectedFilter)
                     .OrderBy(i => i.Title)
-                    .Select(i => new Issue
-                    {
-                        Id = i.Id,
-                        Title = i.Title,
-                        Description = i.Description,
-                        Duration = i.Duration,
-                        AssignedTo = i.AssignedTo,
-                        Date = i.Date,
-                        State = i.State,
-                        Project = i.Project
-                    })
                     .ToList();
 
                 ViewData["LastChoice"] = selectedValue;
                 ViewData["CurrentUser"] = userId;
+
+                users = _context.Users;
+                list = new SelectList(users);
+                ViewBag.Users = list.ToList();
+                ViewData["Users"] = users.ToList();
+
+                //ViewData["LastChoice"] = selectedValue;
+                ViewData["CurrentUser"] = userId;
+                ViewData["CurrentProject"] = proj;
 
                 return View(filteredIssues);
             }
@@ -152,8 +158,8 @@ namespace Time_Sheet_Buddy.Controllers
             ViewData["CurrentUser"] = userId;
             ViewData["CurrentProject"] = proj;
 
-            var users = _context.Users;
-            SelectList list = new SelectList(users);
+            users = _context.Users;
+            list = new SelectList(users);
             ViewBag.Users = list.ToList();
             ViewData["Users"] = users.ToList();
             

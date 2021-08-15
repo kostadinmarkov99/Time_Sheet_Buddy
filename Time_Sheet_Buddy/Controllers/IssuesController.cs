@@ -12,6 +12,7 @@ using Time_Sheet_Buddy.Models;
 using System.Data;
 using Microsoft.AspNetCore.Http;
 using System.Dynamic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Time_Sheet_Buddy.Controllers
 {
@@ -25,6 +26,7 @@ namespace Time_Sheet_Buddy.Controllers
         }
 
         // GET: Issues
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
             var selectedValue = "Show All";
@@ -97,6 +99,12 @@ namespace Time_Sheet_Buddy.Controllers
                 newState = "Active";
             else if (newState == "closed")
                 newState = "Closed";
+            else if(newState == "deletion-tray")
+            {
+                _context.Issue.Remove(issue);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
 
             issue.State = newState;
             if (newState == "Closed")
@@ -270,9 +278,9 @@ namespace Time_Sheet_Buddy.Controllers
                 newState = "New";
             else if (modelState == "in progress")
                 newState = "In Progress";
-            else if (modelState == "resolved")
+            else if (modelState == "resolve")
                 newState = "Active";
-            else if (modelState == "closed")
+            else if (modelState == "close")
                 newState = "Closed";
 
             Issue issues = _context.Issue.Find(modelId);
