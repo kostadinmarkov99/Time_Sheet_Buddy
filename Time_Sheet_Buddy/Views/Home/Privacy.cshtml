@@ -1,6 +1,203 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿<style>
+    body {
+        display: grid;
+    }
 
-<p>Use this page to detail your site's privacy policy.</p>
+    .container {
+        position: relative;
+        text-align: center;
+        color: white;
+    }
+
+    .top-left {
+        position: absolute;
+        top: 8px;
+        left: 16px;
+        position: absolute;
+        top: 8px;
+        left: 16px;
+        font-size: 2.75rem;
+        line-height: 1.18181818;
+        margin-bottom: 16px;
+        color: #253858;
+        letter-spacing: 0;
+        margin-top: 0;
+    }
+
+    .pText {
+        text-align: center;
+        font-size: 1.25rem;
+        letter-spacing: .3px;
+        line-height: 1.4;
+        color: #42526e;
+        margin-bottom: 0;
+    }
+
+    .heading {
+        text-align: center;
+        font-size: 2.25rem;
+        line-height: 1.33333333;
+        color: #253858;
+        letter-spacing: 0;
+        margin-top: 0;
+        font-size: 1.5rem;
+        line-height: 1.33333333;
+        margin-bottom: 14px;
+        font-weight: 500;
+        font-family: Charlie Display, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+        vertical-align: baseline;
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    #registrationPng {
+        width: 50%;
+        float: right;
+    }
+
+    #registrationTxt,
+    {
+        float: left;
+    }
+
+    #backlogsPng {
+        width: 50%;
+        float: left;
+    }
+
+    #backlogsTxt {
+        float: right;
+    }
+
+    #newBacklogPng {
+        width: 55%;
+        float: right;
+    }
+
+    #newBacklogTxt {
+        float: left;
+    }
+
+    #emptyBacklogPng {
+        float: left;
+        width: 55%;
+    }
+
+    #emptyBacklogTxt {
+        float: right;
+    }
+
+    #firstIssuePng {
+        float: right;
+        width: 55%;
+    }
+
+    #firstIssueTxt {
+        float: left;
+    }
+
+    #detailsPng {
+        float: left;
+        width: 55%;
+    }
+
+    #detailsTxt{
+        float: right;
+    }
+
+    #editPnt {
+        float: right;
+        width: 55%;
+    }
+
+    #editTxt{
+        float: left;
+    }
+
+    #inProgressPng {
+        float: left;
+        width: 55%;
+    }
+
+    #inProgressTxt{
+        float: right;
+    }
+
+    #resolvedPng {
+        float: right;
+        width: 55%;
+    }
+
+    #resolvedTxt{
+        float: left;
+    }
+
+    #closedPng {
+        float: left;
+        width: 55%;
+    }
+
+    #closedTxt{
+        float: right;
+    }
+</style>
+
+<div class="container"></div>
+<img src="~/images/ProductGuideWelcome.png" alt="Snow" style="width:100%;">
+<div class="top-left">
+    <h1 class="top-left"> Time Sheet Buddy Software guides and tutorials  </h1>
+</div>
+<div class="bottom">
+    <h2 class="heading"> Everything you need to know about buying, using, and customizing Time Sheet Buddy Software.</h2>
+</div>
+
+<div class="registration">
+    <h2 id="registrationTxt" class="heading">Make a Registration!</h2>
+    <img id="registrationPng" src="~/images/Registration.png" alt="Snow">
+</div>
+
+<div class="balcklogs">
+    <h2 id="backlogsTxt" class="heading">The Backlog Action gives you the oppertunity to list (in a table) all existing Projects, that your team works on</h2>
+    <img id="backlogsPng" src="~/images/Backlogs.png" alt="Snow">
+</div>
+
+<div class="newBacklog">
+    <h2 id="newBacklogTxt" class="heading">You can choos to create new (for new Project) of cource</h2>
+    <img id="newBacklogPng" src="~/images/NewBacklog.png" alt="Snow">
+</div>
+
+<div class="balcklogs">
+    <h2 id="emptyBacklogTxt" class="heading">Now you can see the new created Baclog</h2>
+    <img id="emptyBacklogPng" src="~/images/EmptyBacklog.png" alt="Snow">
+</div>
+
+<div class="firstIssue">
+    <h2 id="firstIssueTxt" class="heading">Now you can see the create your first Issue and change directly the teammet, who will work on this task with clicking on the Assigned To field and choosing one of the registrated persons.</h2>
+    <img id="firstIssuePng" src="~/images/NewTaskCreation.png" alt="Snow">
+</div>
+
+<div class="details">
+    <h2 id="detailsTxt" class="heading">With doublec clicking on some task you can open it in separate window and see the whole information abput it</h2>
+    <img id="detailsPng" src="~/images/IssueDetails.png" alt="Snow">
+</div>
+
+<div class="edit">
+    <h2 id="editTxt" class="heading">If you realize, that you want to change something on this Issue, you can do it by clicking the Edit functionality and you will see the information for this issue, but this time you can edit it, save it and go back in the main window for your current Backlog</h2>
+    <img id="editPnt" src="~/images/EditIssue.png" alt="Snow">
+</div>
+
+<div class="inProgress">
+    <h2 id="inProgressTxt" class="heading">if you think you can start working on the some task you can drag it to some of the 4 oportunities: Open, In Progress, Active and Close. If you are in Close state the Duration time will automatically be 0 for you (The task is completed)!</h2>
+    <img id="inProgressPng" src="~/images/InProgressIssue.png" alt="Snow">
+</div>
+
+<div class="resolved">
+    <h2 id="resolvedTxt" class="heading">The task in Active State: </h2>
+    <img id="resolvedPng" src="~/images/ResolvedIssue.png" alt="Snow">
+</div>
+
+<div class="closed">
+    <h2 id="closedTxt" class="heading">The task in Closed State: </h2>
+    <img id="closedPng" src="~/images/ClosedIssue.png" alt="Snow">
+</div>
