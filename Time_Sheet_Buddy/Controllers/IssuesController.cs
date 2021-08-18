@@ -156,7 +156,51 @@ namespace Time_Sheet_Buddy.Controllers
             {
                 _context.Issue.Remove(issue);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+
+                var currentBacklog = _context.Backlogs
+                .Where(b => b.Name.Equals(issueProject)).SelectMany(i => i.Issues).ToList();
+
+                var backlogIssues = currentBacklog.Count;
+
+                var tempCounter = 0;
+                foreach (var iss in currentBacklog)
+                {
+                    if (iss.State == "Closed")
+                        tempCounter++;
+                }
+                if (tempCounter == backlogIssues)
+                {
+                    Backlog backLg = _context.Backlogs
+               .Where(b => b.Name.Equals(issueProject)).SingleOrDefault();
+
+                    _context.Backlogs.Remove(backLg);
+                    _context.SaveChanges();
+
+                    var modelIssue = _context.Projectcs.ToList();
+
+                    Dictionary<string, int> backlogItemsCount = new Dictionary<string, int>();
+
+                    var allBacklogs = _context.Backlogs;
+
+                    foreach (var backlog in allBacklogs)
+                    {
+                        string backlogName = backlog.Name;
+                        int backlogId = backlog.Id;
+
+                        var currentBacklogIssues = _context.Backlogs
+                        .Where(b => b.Id.Equals(backlogId)).SelectMany(i => i.Issues).ToList();
+
+                        var backlogItmIssuesCount = currentBacklogIssues.Count;
+
+                        backlogItemsCount.Add(backlogName, backlogItmIssuesCount);
+                    }
+
+                    ViewBag.BacklogItemsCount = backlogItemsCount;
+
+                    //return Redirect("~/Backlogs/Index");
+                    return View("~/Baklogs/Index.cshtml", modelIssue);
+
+                }
             }
 
             issue.State = newState;
