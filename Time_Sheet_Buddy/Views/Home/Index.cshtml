@@ -7,11 +7,8 @@
 
     .top-left {
         position: absolute;
-        top: 8px;
-        left: 16px;
-        position: absolute;
-        top: 8px;
-        left: 16px;
+        top: -1px;
+        left: -14px;
         font-size: 2.75rem;
         line-height: 1.18181818;
         margin-bottom: 16px;
@@ -46,14 +43,171 @@
         padding: 0;
         border: 0;
     }
+
+    .welcomeBacklog {
+        display: inline-table;
+    }
+
+    .newBacklogTxt {
+        width: 20%;
+        float: right;
+    }
+
+    .welcomeBckl {
+        float: left;
+        width: 80%;
+    }
+
+    h3, span, h4, p, div{
+        color: black;
+    }
+
+    .container,
+        .container-fluid {
+            padding: 16px 0;
+            position: relative;
+        }
+
+        .container-fluid {
+            margin-right: auto;
+            margin-left: auto;
+            clear: both;
+        }
+
+        .column .row {
+            margin-left: -16px;
+            margin-right: -16px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .row {
+            max-width: 1440px;
+        }
+
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .column .column {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+    .TrackTxt{
+        padding-top: 30%;
+    }
+
+
+    @@media (min-width: 768px) {
+        
+        .column-md-4 {
+            width: 33.33333%;
+        }
+    }
+
+    @@media only screen and (max-width: 768px) {
+        .top-left {
+            position: inherit;
+            top: -1px;
+            left: -14px;
+            font-size: 2.75rem;
+            line-height: 1.18181818;
+            margin-bottom: 16px;
+            color: #253858;
+            letter-spacing: 0;
+            margin-top: 0;
+        }
+
+        .welcomeBckl, .newBacklogTxt {
+            width: 100%;
+        }
+    }
 </style>
 
 <div class="container"></div>
-<img src="~/images/welcomePage.png" alt="Snow" style="width:100%;">
+<img src="~/images/welcomePage.png" alt="Snow" style="width:80%;">
 <div class="top-left">
     <h1 class="top-left"> The #1 software development tool for organization of your workflow  </h1>
 </div>
 <div class="bottom">
     <h2 class="heading"> The best software teams ship early and often. </h2>
     <p class="pText">Time Sheet Buddy Software is built for every member of your software team to plan,<br> track, and release great software.</p>
+</div>
+
+<div class="welcomeBacklog">
+    <img class="welcomeBckl" src="~/images/welcomeBacklog.png" alt="Snow">
+    <div class="newBacklogTxt">
+        <div id="PlanTxt">
+            <h3>Plan</h3>
+            <span>Create user stories and issues, plan sprints, and distribute tasks across your software team.</span>
+        </div>
+        <div id="TrackTxt">
+            <h3>Track</h3>
+            <span>Prioritize and discuss your team’s work in full context with complete visibility.</span>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row flex-container">
+        <div class="column column-md-4 s0 between">
+            <div class="component component--image-heading-textblock">
+                <div class="component__image">
+                    <img id="info.magnolia.context.HTMLEscapingWebContextWrapper@4e7d72d6" alt="Fingerprint"
+                         class="component__image" style="height:36px;"
+                         src="https://wac-cdn.atlassian.com/dam/jcr:5fc4019a-9fd4-4571-a754-ee3a33b8cc14/PRIVACY@2x.png?cdnVersion=1763"
+                         loading="auto">
+                </div>
+                <div class="component__heading-textblock">
+                    <h4 class="heading"> Privacy </h4>
+                    <p>
+                        Time Sheet Buddy Software invested in&nbsp;<span data-event="clicked"
+                                                                         data-uuid="729fac0a-ca" data-event-component="linkButton"
+                                                                         data-event-container="imageHeadingTextBlock" data-schema-version="1"
+                                                                         data-product-key="jiraSoftware">GDPR and Privacy Shield</span>&nbsp;to ensure all data is
+                        handled with&nbsp;care.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="column column-md-4 s0 between">
+            <div class="component component--image-heading-textblock">
+                <div class="component__image">
+                    <img id="info.magnolia.context.HTMLEscapingWebContextWrapper@4e7d72d6" alt="Security keyhole"
+                         class="component__image" style="height:36px;"
+                         src="https://wac-cdn.atlassian.com/dam/jcr:6b2e8f4a-e1b5-4e0a-b827-54c90ef5d156/icons-security-keyhole-dark.svg?cdnVersion=1763"
+                         loading="auto">
+                </div>
+                <div class="component__heading-textblock">
+                    <h4 class="heading"> Security </h4>
+                    <p>
+                        Time Sheet Buddy Software safeguards your data with controls like permissions and&nbsp;<span                   data-event="clicked" data-uuid="0cc5e2d5-bd" data-event-component="linkButton"
+                                                                                                      data-event-container="imageHeadingTextBlock" data-schema-version="1"
+                                                                                                      data-product-key="jiraSoftware">encryption in transit and at rest</span>.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="column column-md-4 s0 between">
+            <div class="component component--image-heading-textblock">
+                <div class="component__image">
+                    <img id="info.magnolia.context.HTMLEscapingWebContextWrapper@4e7d72d6"
+                         alt="Shield with checkmark" class="component__image" style="height:36px;"
+                         src="https://wac-cdn.atlassian.com/dam/jcr:8864d1c9-fa84-47f8-806b-e58b733e5689/icons-security-shield%20check-dark-60x72@2x.png?cdnVersion=1763"
+                         loading="auto">
+                </div>
+                <div class="component__heading-textblock">
+                    <h4 class="heading"> Compliance </h4>
+                    <p>
+                        Verify Time Sheet Buddy Software's security with <span data-event="clicked"
+                                                                               data-uuid="0a2cccb9-20" data-event-component="linkButton"
+                                                                               data-event-container="imageHeadingTextBlock" data-schema-version="1"
+                                                                               data-product-key="jiraSoftware">SOC2, SOC3, ISO 27001, ISO 27018, PCI DSS, and more</span>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

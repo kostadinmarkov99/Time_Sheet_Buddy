@@ -220,6 +220,19 @@
 
         </div>
 
+        <!-- The Modal -->
+        <div id="myModalChart" class="modalProj">
+
+            <!-- Modal content -->
+            <div class="modal-contentProj">
+                <span class="closeChart">&times;</span>
+                <div class="card-body">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
         <div class="form-group">
             <div id="newProject">
                 <label>
@@ -239,7 +252,7 @@
                     </tr>
                     @foreach (var project in itemsCount)
                     {
-                        <tr>
+                        <tr id="@project.Key">
                             <td>@project.Key</td>
                             <td>@project.Value</td>
                         </tr>
@@ -262,22 +275,25 @@
         for (var i = 1; i < table.rows.length; i++) {
             table.rows[i].onclick = function () {
                 // remove the background from the previous selected row
+
                 if (typeof index !== "undefined") {
                     table.rows[index].classList.toggle("selected");
                 }
-                console.log(typeof index);
+                //console.log(typeof index);
                 // get the selected row index
                 index = this.rowIndex;
-                // add class selected to the row
+                //add class selected to the row
                 this.classList.toggle("selected");
-                console.log(typeof index);
+                //console.log(this);
+                //console.log(typeof index);
+                var bId = this.id;
             };
         }
-
     }
     selectedRow();
+ 
 
-    function addNewProjectClicked() {
+        function addNewProjectClicked() {
         // Get the modal
         var modalProj = document.getElementById("myModalProj");
 

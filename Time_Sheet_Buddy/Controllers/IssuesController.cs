@@ -13,6 +13,7 @@ using System.Data;
 using Microsoft.AspNetCore.Http;
 using System.Dynamic;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Routing;
 
 namespace Time_Sheet_Buddy.Controllers
 {
@@ -91,6 +92,8 @@ namespace Time_Sheet_Buddy.Controllers
 
             var issue = _context.Issue.Find(issueIdInt);
 
+            var issueProject = issue.Project;
+
             if (newState == "open")
                 newState = "New";
             else if (newState == "in-progress")
@@ -98,7 +101,57 @@ namespace Time_Sheet_Buddy.Controllers
             else if (newState == "resolved")
                 newState = "Active";
             else if (newState == "closed")
+            {
                 newState = "Closed";
+
+                issue.State = newState;
+                _context.SaveChanges();
+                var currentBacklog = _context.Backlogs
+                .Where(b => b.Name.Equals(issueProject)).SelectMany(i => i.Issues).ToList();
+
+                var backlogIssues = currentBacklog.Count;
+
+                var tempCounter = 0;
+                foreach(var iss in currentBacklog)
+                {
+                    if (iss.State == "Closed")
+                        tempCounter++;
+                }
+
+                if(tempCounter == backlogIssues)
+                {
+                    Backlog backLg = _context.Backlogs
+               .Where(b => b.Name.Equals(issueProject)).SingleOrDefault();
+
+                    _context.Backlogs.Remove(backLg);
+                     _context.SaveChanges();
+
+                    var modelIssue = _context.Projectcs.ToList();
+
+                    Dictionary<string, int> backlogItemsCount = new Dictionary<string, int>();
+
+                    var allBacklogs = _context.Backlogs;
+
+                    foreach (var backlog in allBacklogs)
+                    {
+                        string backlogName = backlog.Name;
+                        int backlogId = backlog.Id;
+
+                        var currentBacklogIssues = _context.Backlogs
+                        .Where(b => b.Id.Equals(backlogId)).SelectMany(i => i.Issues).ToList();
+
+                        var backlogItmIssuesCount = currentBacklogIssues.Count;
+
+                        backlogItemsCount.Add(backlogName, backlogItmIssuesCount);
+                    }
+
+                    ViewBag.BacklogItemsCount = backlogItemsCount;
+
+                    //return Redirect("~/Backlogs/Index");
+                    return View("~/Baklogs/Index.cshtml", modelIssue);
+
+                }
+            }
             else if(newState == "deletion-tray")
             {
                 _context.Issue.Remove(issue);
@@ -278,7 +331,7 @@ namespace Time_Sheet_Buddy.Controllers
                 newState = "New";
             else if (modelState == "in progress")
                 newState = "In Progress";
-            else if (modelState == "resolve")
+            else if (modelState == "active")
                 newState = "Active";
             else if (modelState == "close")
                 newState = "Closed";

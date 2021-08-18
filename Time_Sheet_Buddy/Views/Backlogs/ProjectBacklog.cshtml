@@ -318,103 +318,6 @@
 </style>
 <h2></h2>
 
-@if (User.IsInRole("Administrator"))
-{
-    if (User.IsInRole("Administrator"))
-    {
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
-    }
-
-    <select id="id_filter_list" name="id_filter_list">
-        @foreach (var user in users)
-        {
-            if (lastChoice != null && lastChoice == user.UserName)
-            {
-                <option selected>@user.UserName</option>
-            }
-            else
-            {
-                <option>@user.UserName</option>
-            }
-        }
-    </select>
-    <input onclick="filterTriggered()" type="submit" value="Filter" />
-
-
-
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Duration)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AssignedTo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.State)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Project)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    Title:
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    Duration:
-                    @Html.DisplayFor(modelItem => item.Duration)
-                </td>
-                <td>
-                    Assigned To:
-                    @Html.DisplayFor(modelItem => item.AssignedTo)
-                </td>
-                <td>
-                    Date:
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    Sate:
-                    @Html.DisplayFor(modelItem => item.State)
-                </td>
-                <td>
-                    Project:
-                    @Html.DisplayFor(modelItem => item.Project)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @if (User.IsInRole("Administrator"))
-                    {
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    }
-                </td>
-            </tr>
-        }
-
-    </table>
-}
-else
-{
     <html>
     <head>
 
@@ -770,7 +673,7 @@ else
         })
     }
 
-    function createIssue(id, titleMessage, asigneeMessage, durationMessage, assignieMessage, projectMessage) {
+    function createIssue(id, titleMessage, asigneeMessage, durationMessage, assignieMessage) {
         let newIssue = document.createElement("li");
         newIssue.classList.add('issue');
         newIssue.setAttribute("id", id);
@@ -856,7 +759,7 @@ else
         assignedTo.setAttribute('onclick', 'assignedToClick( " ' + assignedToId + ' " )');
         assignedTo.innerHTML = "Assigned To: " + assignieMessage;
 
-        if (projectMessage == 'undefined' || projectMessage == "" || projectMessage == null) {
+        @*if (projectMessage == 'undefined' || projectMessage == "" || projectMessage == null) {
             projectMessage = "Choose Project";
         }
 
@@ -867,7 +770,7 @@ else
         project.setAttribute("id", projId);
         project.setAttribute('contenteditable', 'true');
         project.setAttribute('onclick', 'projClick( " ' + projId + ' " )');
-        project.innerHTML = "Project: " + projectMessage;
+        project.innerHTML = "Project: " + projectMessage;*@
 
         if (asigneeMessage == 'undefined' || asigneeMessage == "" || asigneeMessage == null) {
             asigneeMessage = "UnAsigned";
@@ -881,7 +784,7 @@ else
         newIssue.appendChild(title);
         newIssue.appendChild(duration);
         newIssue.appendChild(assignedTo);
-        newIssue.appendChild(project);
+        //newIssue.appendChild(project);
         newIssue.appendChild(assignee);
 
         newIssue.addEventListener("dblclick", function () {
@@ -929,4 +832,3 @@ else
         }
     }
 </script>
-}

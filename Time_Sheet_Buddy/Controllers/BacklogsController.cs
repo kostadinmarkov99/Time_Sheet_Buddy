@@ -24,6 +24,8 @@ namespace Time_Sheet_Buddy.Controllers
 
         // GET: Backlogs
         [Authorize]
+        [HttpGet]
+        [Route("index/")]
         public async Task<IActionResult> Index()
         {
             var selectedValue = "Show All";
@@ -226,13 +228,21 @@ namespace Time_Sheet_Buddy.Controllers
             issue.State = "New";
             _context.Add(issue);
 
+            Backlog backLg = _context.Backlogs
+                .Where(b => b.Name.Equals(projectName)).SingleOrDefault();
+
+
             var currentBacklog = _context.Backlogs
                 .Where(b => b.Name.Equals(projectName)).SelectMany(i => i.Issues).ToList();
+
 
             var elements = currentBacklog.Count();
 
             currentBacklog.Add(issue);
-                        
+
+            backLg.Issues = currentBacklog;
+
+            _context.Update(backLg);
             await _context.SaveChangesAsync();
             elements = currentBacklog.Count();
 
