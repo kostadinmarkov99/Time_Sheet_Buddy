@@ -131,9 +131,35 @@ namespace Time_Sheet_Buddy.Controllers
             await ProjectBacklog(proj);
         }
 
+        private async Task<byte[]> getThemaId()
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+
+            var userThemaId = "23";
+
+            if (applicationUser != null)
+            {
+                userThemaId = applicationUser.ThemaImage;
+            }
+
+            byte[] themaToSend = new byte[5];
+
+            var themaPictureIdToInt = int.Parse(userThemaId);
+
+            var thema = _context.Themas.Find(themaPictureIdToInt);
+
+            themaToSend = thema.ThemesPicture;
+
+            return themaToSend;
+        }
+
         [Authorize]
         public async Task<IActionResult> ProjectBacklog(string proj = "", string selectedFilter = "")
         {
+            byte[] themaToSend = await getThemaId();
+
+            ViewBag.ThemaToShow = themaToSend;
+
             var selectedValue = "Show All";
             
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -209,6 +235,7 @@ namespace Time_Sheet_Buddy.Controllers
                 _context.Add(newProject);
                 await _context.SaveChangesAsync();
             }
+
 
             return View(modelIssue);
         }

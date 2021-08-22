@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using System.Dynamic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Identity;
 
 namespace Time_Sheet_Buddy.Controllers
 {
@@ -21,9 +22,12 @@ namespace Time_Sheet_Buddy.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public IssuesController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public IssuesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Issues
@@ -78,6 +82,28 @@ namespace Time_Sheet_Buddy.Controllers
             ViewData["Users"] = users.ToList();
             var modelIssue = _context.Issue.ToList();
             return View(modelIssue);
+        }
+
+        private async Task<byte[]> getThemaId()
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+
+            var userThemaId = "23";
+
+            if (applicationUser != null)
+            {
+                userThemaId = applicationUser.ThemaImage;
+            }
+
+            byte[] themaToSend = new byte[5];
+
+            var themaPictureIdToInt = int.Parse(userThemaId);
+
+            var thema = _context.Themas.Find(themaPictureIdToInt);
+
+            themaToSend = thema.ThemesPicture;
+
+            return themaToSend;
         }
 
         // POST: IssueTrackers/Index
@@ -245,6 +271,10 @@ namespace Time_Sheet_Buddy.Controllers
                 return NotFound();
             }
 
+            var themaToSend = await getThemaId();
+
+            ViewBag.ThemaToShow = themaToSend;
+
             var issue = await _context.Issue
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (issue == null)
@@ -331,6 +361,10 @@ namespace Time_Sheet_Buddy.Controllers
             {
                 return NotFound();
             }
+
+            var themaToSend = await getThemaId();
+
+            ViewBag.ThemaToShow = themaToSend;
 
             var issue = await _context.Issue.FindAsync(id);
             if (issue == null)

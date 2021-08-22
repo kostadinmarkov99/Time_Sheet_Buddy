@@ -6,6 +6,8 @@
 
 @{
     ViewBag.Title = "Edit";
+
+    var themaToShow = ViewData["ThemaToShow"] as byte[];
 }
 
 @{
@@ -16,252 +18,255 @@
     var users = ViewData["Users"] as List<ApplicationUser>;
 }
 
-<style>
-    #assignedToLbl,
-    #stateLbl {
-        display: block;
-    }
-
-    * {
-        font-family: "Helvetica",sans-serif;
-        box-sizing: border-box;
-    }
-
-    body, html {
-        min-height: 100%;
-        padding: 0;
-    }
-
-    body {
-        font-size: 16px;
-        background: linear-gradient( 145deg, #ffd89b 0%, #19547b 100%) no-repeat fixed;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .form-group {
-        margin-bottom: auto;
-    }
-
-    footer {
-        background: white;
-    }
-
-    .form-container {
-        margin: auto;
-        background: white;
-        max-width: 45rem;
-        width: 90%;
-        border-radius: 16px;
-    }
-
-    .form-content {
-        margin: auto;
-        padding: 0.7rem;
-        display: flex;
-        justify-content: flex-start;
-        flex-direction: column;
-    }
-
-    .links {
-        display: flex;
-        justify-content: flex-end;
-        flex-direction: column;
-        align-items: flex-end;
-    }
-
-    .form-content input {
-        padding: 0.5rem;
-        margin: .5rem 0 .5rem 0;
-        border: none;
-        width: 100%;
-        border-bottom: 1px solid #99A2EA;
-    }
-
-        .form-content input:focus {
-            border: none;
-            border-bottom: 1px solid #4E6AD7;
+<!DOCTYPE html>
+<html style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">
+<head>
+    <style>
+        #assignedToLbl,
+        #stateLbl {
+            display: block;
         }
 
-    .form-content h1 {
-        margin-top: 0;
-        font-size: 2rem;
-        font-weight: normal;
-    }
-
-    .form-content h2 {
-        font-size: 1.5rem;
-        font-weight: lighter;
-        color: #838592;
-    }
-
-    .form-content button {
-        max-width: 10rem;
-        border-radius: 60px;
-        background-color: #54BDD6;
-        color: white;
-        border: none;
-        padding: .5rem 2.5rem;
-        margin: 4rem 0 .5rem 0;
-    }
-
-    .form-content a {
-        margin: .5rem 0 .5rem 0;
-        color: rgb(20, 20, 240)
-    }
-
-        .form-content a:hover {
-            text-decoration: underline;
+        * {
+            font-family: "Helvetica",sans-serif;
+            box-sizing: border-box;
         }
 
-    #error-message {
-        color: red;
-    }
+        body, html {
+            min-height: 100%;
+            padding: 0;
+        }
 
-    @@media only screen and (max-width: 890px) {
+        body {
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: auto;
+        }
+
+        footer {
+            background: white;
+        }
+
         .form-container {
-            min-width: 90%;
+            margin: auto;
+            background: white;
+            max-width: 45rem;
+            width: 90%;
+            border-radius: 16px;
         }
-    }
-</style>
 
-@using (Html.BeginForm())
-{
-
-
-    <div class="form-horizontal">
-        @Html.HiddenFor(model => model.Id)
-
-        @if (User.IsInRole("Administrator"))
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.DropDownListFor(m => m.AssignedTo, (SelectList)ViewBag.Users, "Seleccionar", new { @class = "form-control" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <span class="closeProj">&times;</span>
-                <select id="selectStates">
-                    @foreach (var state in (IEnumerable<Stete>)ViewData["States"])
-                    {
-                        <option>@state.Title</option>
-                    }
-                </select>
-            </div>
-
-            <div class="form-group">
-                <button id="savedChanges" onclick="savedChanges()">Save</button>
-            </div>
+        .form-content {
+            margin: auto;
+            padding: 0.7rem;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
         }
-        else
-        {
-            <div class="form-container">
-                <div class="form-content">
-                    <h2>Edit</h2>
-                    <h4>Issue @Model.Title</h4>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+        .links {
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: column;
+            align-items: flex-end;
+        }
 
-                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+        .form-content input {
+            padding: 0.5rem;
+            margin: .5rem 0 .5rem 0;
+            border: none;
+            width: 100%;
+            border-bottom: 1px solid #99A2EA;
+        }
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+            .form-content input:focus {
+                border: none;
+                border-bottom: 1px solid #4E6AD7;
+            }
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+        .form-content h1 {
+            margin-top: 0;
+            font-size: 2rem;
+            font-weight: normal;
+        }
 
-                    <div class="form-group">
-                        <label id="assignedToLbl">Assigned To: </label>
-                        <select id="selectAssignedTo">
-                            @foreach (var user in users)
-                            {
-                                <option>@user.UserName</option>
-                            }
-                        </select>
-                    </div>
+        .form-content h2 {
+            font-size: 1.5rem;
+            font-weight: lighter;
+            color: #838592;
+        }
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+        .form-content button {
+            max-width: 10rem;
+            border-radius: 60px;
+            background-color: #54BDD6;
+            color: white;
+            border: none;
+            padding: .5rem 2.5rem;
+            margin: 4rem 0 .5rem 0;
+        }
 
-                    <div class="form-group">
-                        <label id="stateLbl">State: </label>
-                        <select id="selectProj">
-                            @foreach (var state in (IEnumerable<Stete>)ViewData["States"])
-                            {
-                                <option>@state.Title</option>
-                            }
-                        </select>
-                    </div>
+        .form-content a {
+            margin: .5rem 0 .5rem 0;
+            color: rgb(20, 20, 240)
+        }
 
-                    <div class="form-group" style="visibility: hidden; content-visibility: hidden;">
-                        @Html.LabelFor(model => model.Project, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Project, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            @Html.ValidationMessageFor(model => model.Project, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+            .form-content a:hover {
+                text-decoration: underline;
+            }
 
-                    <button id="savedChangesBtn" onclick="addChange()">Save</button>
+        #error-message {
+            color: red;
+        }
+
+        @@media only screen and (max-width: 890px) {
+            .form-container {
+                min-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">
+    @using (Html.BeginForm())
+    {
 
 
-                    <div>
-                        @Html.ActionLink("Back to List", "ProjectBacklog", "Backlogs", new { proj = Model.Project }, null)
+        <div class="form-horizontal">
+            @Html.HiddenFor(model => model.Id)
+
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </div>
-        }
-    </div>
-    <script>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.DropDownListFor(m => m.AssignedTo, (SelectList)ViewBag.Users, "Seleccionar", new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="closeProj">&times;</span>
+                    <select id="selectStates">
+                        @foreach (var state in (IEnumerable<Stete>)ViewData["States"])
+                        {
+                            <option>@state.Title</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <button id="savedChanges" onclick="savedChanges()">Save</button>
+                </div>
+            }
+            else
+            {
+                <div class="form-container">
+                    <div class="form-content">
+                        <h2>Edit</h2>
+                        <h4>Issue @Model.Title</h4>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label id="assignedToLbl">Assigned To: </label>
+                            <select id="selectAssignedTo">
+                                @foreach (var user in users)
+                                {
+                                    <option>@user.UserName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label id="stateLbl">State: </label>
+                            <select id="selectProj">
+                                @foreach (var state in (IEnumerable<Stete>)ViewData["States"])
+                                {
+                                    <option>@state.Title</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="visibility: hidden; content-visibility: hidden;">
+                            @Html.LabelFor(model => model.Project, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Project, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.Project, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <button id="savedChangesBtn" onclick="addChange()">Save</button>
+
+
+                        <div>
+                            @Html.ActionLink("Back to List", "ProjectBacklog", "Backlogs", new { proj = Model.Project }, null)
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <script>
     function addChange() {
         var request = new XMLHttpRequest();
 
@@ -316,6 +321,8 @@
         @**@
     //})
 
-    </script>
-}
+        </script>
+    }
 
+</body>
+</html>
