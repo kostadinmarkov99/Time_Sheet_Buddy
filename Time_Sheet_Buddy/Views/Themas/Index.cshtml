@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Time_Sheet_Buddy.Entities.Themas>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+    }
+
+    .grid-item {
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+    }
+</style>
+
+<div class="grid-container">
+    @foreach (var item in Model)
+    {
+        <div class="grid-item">
+            <img id="profilePicture" style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.ThemesPicture))">
+        </div>
+    }
+</div>
+
+@*<div asp-action="Edit" asp-route-id="@item.Id">Edit</div>
+    <div asp-action="Details" asp-route-id="@item.Id">Details</div>
+    <div asp-action="Delete" asp-route-id="@item.Id">Delete</div>
+*@
+<form asp-action="UploadImage"
+      asp-controller="Themas"
+      method="post"
+      enctype="multipart/form-data">
+    <input type="file" id="file1"
+           name="file1"
+           multiple="multiple" />
+    <button type="submit">Upload File(s)</button>
+</form>

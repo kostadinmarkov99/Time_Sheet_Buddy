@@ -27,6 +27,8 @@ namespace Time_Sheet_Buddy.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; }
 
+        public string ThemaImage { get; set; }
+
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -43,6 +45,9 @@ namespace Time_Sheet_Buddy.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
+
+            [Display(Name = "ThemaImage")]
+            public string ThemaImage { get; set; }
 
             [Display(Name = "Username")]
             public string Username { get; set; }
@@ -62,7 +67,12 @@ namespace Time_Sheet_Buddy.Areas.Identity.Pages.Account.Manage
             var firstName = user.FirstName;
             var lastName = user.LastName;
             var profilePicture = user.ProfilePicture;
+            var themaPicture = user.ThemaImage;
+
             Username = userName;
+
+            ThemaImage = themaPicture;
+
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
