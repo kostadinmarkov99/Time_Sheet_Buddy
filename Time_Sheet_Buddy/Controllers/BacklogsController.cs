@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +18,12 @@ namespace Time_Sheet_Buddy.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public BacklogsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public BacklogsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Backlogs
@@ -97,6 +101,22 @@ namespace Time_Sheet_Buddy.Controllers
             }
 
             ViewBag.BacklogItemsCount = backlogItemsCount;
+
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+            var themaPictureId = applicationUser.ThemaImage;
+
+            byte[] themaToSend = new byte[5];
+
+            if(themaPictureId != null)
+            {
+                var themaPictureIdToInt = int.Parse(themaPictureId);
+
+                var thema = _context.Themas.Find(themaPictureIdToInt);
+
+                themaToSend = thema.ThemesPicture;
+            }
+
+            ViewBag.ThemaToShow = themaToSend;
 
             return View(modelIssue);
         }

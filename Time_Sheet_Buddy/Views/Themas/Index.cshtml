@@ -1,42 +1,65 @@
-﻿@model IEnumerable<Time_Sheet_Buddy.Entities.Themas>
+﻿@model List<Time_Sheet_Buddy.Entities.Themas>
 
 @{
     ViewData["Title"] = "Index";
+
+    var themaToShow = ViewData["ThemaToShow"] as byte[];
 }
-<style>
-    .grid-container {
-        display: grid;
-        grid-template-columns: auto auto auto;
-        padding: 10px;
-    }
 
-    .grid-item {
-        border: 1px solid rgba(0, 0, 0, 0.8);
-        padding: 20px;
-        font-size: 30px;
-        text-align: center;
-    }
-</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            padding: 10px;
+        }
 
-<div class="grid-container">
-    @foreach (var item in Model)
-    {
-        <div class="grid-item">
-            <img id="profilePicture" style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.ThemesPicture))">
-        </div>
-    }
-</div>
+        .grid-item {
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+        }
 
-@*<div asp-action="Edit" asp-route-id="@item.Id">Edit</div>
-    <div asp-action="Details" asp-route-id="@item.Id">Details</div>
-    <div asp-action="Delete" asp-route-id="@item.Id">Delete</div>
-*@
-<form asp-action="UploadImage"
-      asp-controller="Themas"
-      method="post"
-      enctype="multipart/form-data">
-    <input type="file" id="file1"
-           name="file1"
-           multiple="multiple" />
-    <button type="submit">Upload File(s)</button>
-</form>
+            .grid-item:hover {
+                transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+            }
+    </style>
+</head>
+
+<body style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">
+    <div class="grid-container">
+        @foreach (var item in Model)
+        {
+            @if (item.Id != 23)
+            {
+                <div class="grid-item" onclick="themaSelected(@item.Id)">
+                    <img id="profilePicture" style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.ThemesPicture))">
+                </div>
+            }
+        }
+    </div>
+
+    @*<div asp-action="Edit" asp-route-id="@item.Id">Edit</div>
+        <div asp-action="Details" asp-route-id="@item.Id">Details</div>
+        <div asp-action="Delete" asp-route-id="@item.Id">Delete</div>
+    *@
+    <form asp-action="UploadImage"
+          asp-controller="Themas"
+          method="post"
+          enctype="multipart/form-data">
+        <input type="file" id="file1"
+               name="file1"
+               multiple="multiple" />
+        <button type="submit">Upload File(s)</button>
+    </form>
+
+    <script>
+    function themaSelected(themaId) {
+        window.location = "@(Url.Action("ThemaChoosed", "Themas"))" + "?themaId=" + themaId;
+    }
+    </script>
+</body>
+</html>

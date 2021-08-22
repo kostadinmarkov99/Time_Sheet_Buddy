@@ -7,266 +7,284 @@
     var projects = ViewData["ProjectsList"] as List<ApplicationUser>;
 
     var itemsCount = ViewData["BacklogItemsCount"] as Dictionary<string, int>;
+
+    var themaToShow = ViewData["ThemaToShow"] as byte[];
 }
 
-<style>
-    * {
-        font-family: "Helvetica",sans-serif;
-        box-sizing: border-box;
-    }
+<!DOCTYPE html>
+<html style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">
+<head>
 
-    #addProjectButton {
-        background-color: #d4d4d4;
-        width: auto;
-        text-decoration: none;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 50%;
-    }
 
-    body, html {
-        min-height: 100%;
-        padding: 0;
-    }
-
-    body {
-        font-size: 16px;
-        background: linear-gradient( 145deg, #ffd89b 0%, #19547b 100%) no-repeat fixed;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .form-group {
-        margin-bottom: auto;
-    }
-
-    footer {
-        background: white;
-    }
-
-    .form-container {
-        margin: auto;
-        background: white;
-        max-width: 45rem;
-        width: 90%;
-        border-radius: 16px;
-    }
-
-    .form-content {
-        margin: auto;
-        padding: 0.7rem;
-        display: flex;
-        justify-content: flex-start;
-        flex-direction: column;
-    }
-
-    .links {
-        display: flex;
-        justify-content: flex-end;
-        flex-direction: column;
-        align-items: flex-end;
-    }
-
-    .form-content input {
-        padding: 0.5rem;
-        margin: .5rem 0 .5rem 0;
-        border: none;
-        width: 100%;
-        border-bottom: 1px solid #99A2EA;
-    }
-
-        .form-content input:focus {
-            border: none;
-            border-bottom: 1px solid #4E6AD7;
+    <style>
+        * {
+            font-family: "Helvetica",sans-serif;
+            box-sizing: border-box;
         }
 
-    .form-content h1 {
-        margin-top: 0;
-        font-size: 2rem;
-        font-weight: normal;
-    }
-
-    .form-content h2 {
-        font-size: 1.5rem;
-        font-weight: lighter;
-        color: #838592;
-    }
-
-    .form-content button {
-        max-width: 10rem;
-        border-radius: 60px;
-        background-color: #54BDD6;
-        color: white;
-        border: none;
-        padding: .5rem 2.5rem;
-        margin: 4rem 0 .5rem 0;
-    }
-
-    .form-content a {
-        margin: .5rem 0 .5rem 0;
-        color: rgb(20, 20, 240)
-    }
-
-        .form-content a:hover {
-            text-decoration: underline;
-        }
-
-    #error-message {
-        color: red;
-    }
-
-    @@media only screen and (max-width: 890px) {
-        .form-container {
-            min-width: 90%;
-        }
-    }
-
-    .add-btn-img {
-        width: 3rem;
-        height: 2rem;
-        display: flex;
-        justify-self: flex-start;
-    }
-
-    /* Modal Content */
-    .modal-contentProj {
-        background-color: #fefefe;
-        margin: auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-    }
-
-    /* The Close Button */
-    .closeProj {
-        color: #aaaaaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-        .closeProj:hover,
-        ..closeProj:focus {
-            color: #000;
+        #addProjectButton {
+            background-color: #d4d4d4;
+            width: auto;
             text-decoration: none;
+            font-size: 16px;
+            margin: 4px 2px;
             cursor: pointer;
+            border-radius: 50%;
         }
 
-    /* The Modal (background) */
-    .modalProj {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        padding-top: 100px; /* Location of the box */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
-
-    #backlogs {
-        text-align: center;
-        font-family: Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-        #backlogs td, #backlogs th {
-            border: 1px solid #ddd;
-            padding: 8px;
+        body, html {
+            min-height: 100%;
+            padding: 0;
         }
 
-        #backlogs tr:hover {
-            background-color: #ddd;
+        body {
+            font-size: 16px;
+            background: linear-gradient( 145deg, #ffd89b 0%, #19547b 100%) no-repeat fixed;
+            display: flex;
+            flex-direction: column;
         }
 
-        #backlogs th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #788c87;
+        .form-group {
+            margin-bottom: auto;
+        }
+
+        footer {
+            background: white;
+        }
+
+        .form-container {
+            margin: auto;
+            background: white;
+            max-width: 45rem;
+            width: 90%;
+            border-radius: 16px;
+        }
+
+        .form-content {
+            margin: auto;
+            padding: 0.7rem;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
+        }
+
+        .links {
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .form-content input {
+            padding: 0.5rem;
+            margin: .5rem 0 .5rem 0;
+            border: none;
+            width: 100%;
+            border-bottom: 1px solid #99A2EA;
+        }
+
+            .form-content input:focus {
+                border: none;
+                border-bottom: 1px solid #4E6AD7;
+            }
+
+        .form-content h1 {
+            margin-top: 0;
+            font-size: 2rem;
+            font-weight: normal;
+        }
+
+        .form-content h2 {
+            font-size: 1.5rem;
+            font-weight: lighter;
+            color: #838592;
+        }
+
+        .form-content button {
+            max-width: 10rem;
+            border-radius: 60px;
+            background-color: #54BDD6;
             color: white;
+            border: none;
+            padding: .5rem 2.5rem;
+            margin: 4rem 0 .5rem 0;
         }
 
-    tr {
-        cursor: pointer;
-        transition: all .25s ease-in-out
-    }
+        .form-content a {
+            margin: .5rem 0 .5rem 0;
+            color: rgb(20, 20, 240)
+        }
 
-    .selected {
-        background-color: #b2a0d8;
-        font-weight: bold;
-        color: #fff;
-    }
-</style>
+            .form-content a:hover {
+                text-decoration: underline;
+            }
+
+        #error-message {
+            color: red;
+        }
+
+        @@media only screen and (max-width: 890px) {
+            .form-container {
+                min-width: 90%;
+            }
+        }
+
+        .add-btn-img {
+            width: 3rem;
+            height: 2rem;
+            display: flex;
+            justify-self: flex-start;
+        }
+
+        /* Modal Content */
+        .modal-contentProj {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .closeProj {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .closeProj:hover,
+            ..closeProj:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        /* The Modal (background) */
+        .modalProj {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        #backlogs {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #backlogs td, #backlogs th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #backlogs tr:hover {
+                background-color: #ddd;
+            }
+
+            #backlogs th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #788c87;
+                color: white;
+            }
+
+        tr {
+            cursor: pointer;
+            transition: all .25s ease-in-out
+        }
+
+        .selected {
+            background-color: #b2a0d8;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
+</head>
+<body style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">
+    
 
 
-<div class="form-container">
-    <div class="form-content">
-        <!-- The Modal -->
-        <div id="myModalProj" class="modalProj">
+    <div class="form-container">
+        <div class="form-content">
+            <!-- The Modal -->
+            <div id="myModalProj" class="modalProj">
 
-            <!-- Modal content -->
-            <div class="modal-contentProj">
-                <span class="closeProj">&times;</span>
-                <label>Select the Backlog name:</label>
-                <input id="projNameInput" />
-                <button id="saveProj">Save</button>
+                <!-- Modal content -->
+                <div class="modal-contentProj">
+                    <span class="closeProj">&times;</span>
+                    <label>Select the Backlog name:</label>
+                    <input id="projNameInput" />
+                    <button id="saveProj">Save</button>
+                </div>
+
             </div>
 
-        </div>
+            <!-- The Modal -->
+            <div id="myModalChart" class="modalProj">
 
-        <!-- The Modal -->
-        <div id="myModalChart" class="modalProj">
+                <!-- Modal content -->
+                <div class="modal-contentProj">
+                    <span class="closeChart">&times;</span>
+                    <div class="card-body">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
 
-            <!-- Modal content -->
-            <div class="modal-contentProj">
-                <span class="closeChart">&times;</span>
-                <div class="card-body">
-                    <canvas id="myChart"></canvas>
+            </div>
+
+            <div class="form-group">
+                <div id="newProject">
+                    <label>
+                        Add New Project (Backlog)
+                    </label>
+                    <input id="addProjectButton" onclick="addNewProjectClicked()" type="image" class="add-btn-img" src="~/images/addProject.png" alt="Add Project" value="Add new Backlog" />
                 </div>
             </div>
 
-        </div>
+            <div class="form-group">
+                <div id="select">
 
-        <div class="form-group">
-            <div id="newProject">
-                <label>
-                    Add New Project (Backlog)
-                </label>
-                <input id="addProjectButton" onclick="addNewProjectClicked()" type="image" class="add-btn-img" src="~/images/addProject.png" alt="Add Project" value="Add new Backlog" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div id="select">
-
-                <table id="backlogs">
-                    <tr>
-                        <th>Project Name</th>
-                        <th>Number of issues</th>
-                    </tr>
-                    @foreach (var project in itemsCount)
-                    {
-                        <tr id="@project.Key">
-                            <td>@project.Key</td>
-                            <td>@project.Value</td>
+                    <table id="backlogs">
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Number of issues</th>
                         </tr>
-                    }
-                </table>
+                        @foreach (var project in itemsCount)
+                        {
+                            <tr id="@project.Key">
+                                <td>@project.Key</td>
+                                <td>@project.Value</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+
+                <input type="submit" value="Open Backlog" onclick="backlogSelected()" />
+
             </div>
-
-            <input type="submit" value="Open Backlog" onclick="backlogSelected()" />
-
         </div>
     </div>
-</div>
 
-<script>
+    <script>
+    window.onload = function () {
+        @*var img = new Image();
+
+        img.src = themaToShow + "";
+
+        document.body.style.backgroundImage = "url('" + img.src + "')";*@
+    }
+
     function selectedRow() {
 
         var index,
@@ -291,7 +309,7 @@
         }
     }
     selectedRow();
- 
+
 
         function addNewProjectClicked() {
         // Get the modal
@@ -367,4 +385,6 @@
         }
         request.send(JSON.stringify(o));*@
     }
-</script>
+    </script>
+</body>
+</html>
