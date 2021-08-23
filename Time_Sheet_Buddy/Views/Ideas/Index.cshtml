@@ -13,6 +13,14 @@
     <meta content="utf-8" http-equiv="encoding">
 
     <style>
+        button {
+            content: "Edit";
+        }
+
+        footer{
+            visibility: hidden;
+        }
+
         html {
             box-sizing: border-box;
             font-family: 'Courier New', Courier, monospace;
@@ -39,6 +47,10 @@
             -ms-user-select: none;
             user-select: none;
         }
+
+            .drag.sticky:hover {
+                transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+            }
 
         .sticky {
             background: linear-gradient(to left bottom, #d4fc78, #99e5a2);
@@ -132,6 +144,8 @@
             user-select: none;
             vertical-align: middle;
         }
+
+        
     </style>
 </head>
 <body style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">
@@ -200,8 +214,8 @@
                 o.left_style = dragTarget.style.left;
                 o.top_style = dragTarget.style.top;
 
-                console.log(dragTarget.style.left);
-                console.log(dragTarget.style.top);
+                //console.log(dragTarget.style.left);
+                //console.log(dragTarget.style.top);
 
                 request.open('POST', '/Ideas/SaveStickyCoordinates', true);
                 request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
@@ -216,6 +230,10 @@
             function createSavedSticky(id, title, input, leftPosition, topStyle) {
                 var newSticky = document.createElement('div');
                 newSticky.setAttribute("id", id);
+
+                //console.log(newSticky.id);
+                newSticky.setAttribute('ondbclick', 'stickyDoubleClick( " ' + id + ' " )');
+
                 var html = `<h3>${title.replace(
                     /<\/?[^>]+(>|$)/g,
                     ''
@@ -228,6 +246,21 @@
                 newSticky.classList.add('drag', 'sticky');
                 newSticky.innerHTML = html;
 
+                var newInput = document.createElement('button');
+                newInput.setAttribute("id", id);
+                newInput.setAttribute('class', 'btn');
+                newInput.value = 'Edit';
+                newInput.textContent = 'Edit';
+
+                newSticky.appendChild(newInput);
+
+                newInput.onclick = function () {
+                    var elInt = parseInt(newInput.id);
+                    console.log(elInt);
+
+                    window.location = "@(Url.Action("Details", "Ideas"))" + "?Id=" + elInt;
+                };
+
                 // newSticky.style.backgroundColor = randomColor();
                 stickyArea.append(newSticky);
 
@@ -236,11 +269,28 @@
                 applyDeleteListener();
             }
 
+            function stickyDoubleClick(id) {
+                var elInt = parseInt(id);
+                console.log(elInt);
+
+                window.location = "@(Url.Action("Details", "Ideas"))" + "?Id=" + elInt;
+            }
+
             function createSticky() {
                 var stickyTitleInput = document.querySelector('#stickytitle');
                 var stickyTextInput = document.querySelector('#stickytext');
 
+                if (stickyTitleInput == "" || stickyTitleInput === "" || stickyTitleInput == undefined || stickyTitleInput == null) {
+                    console.log("Yes");
+                    alert("Add");
+                }
+
                 var newSticky = document.createElement('div');
+
+                //console.log(newSticky.id);
+
+                newSticky.ondblclick();
+
                 var html = `<h3>${stickyTitleInput.value.replace(
                     /<\/?[^>]+(>|$)/g,
                     ''
@@ -253,6 +303,7 @@
                 newSticky.classList.add('drag', 'sticky');
                 newSticky.innerHTML = html;
                 // newSticky.style.backgroundColor = randomColor();
+
                 stickyArea.append(newSticky);
                 positionSticky(newSticky);
                 applyDeleteListener();
@@ -260,8 +311,8 @@
                 var leftSyle = newSticky.style.left;
                 var topStyle = newSticky.style.top;
 
-                console.log(leftSyle);
-                console.log(topStyle);
+                //console.log(leftSyle);
+                //console.log(topStyle);
 
                 var request = new XMLHttpRequest();
                 //debugger;
@@ -271,8 +322,8 @@
                 o.left_style = leftSyle;
                 o.top_style = topStyle;
 
-                console.log(o.sticky_title);
-                console.log(o.sticky_description);
+                //console.log(o.sticky_title);
+                //console.log(o.sticky_description);
 
                 request.open('POST', '/Ideas/SaveSticky', true);
                 request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -110,6 +111,10 @@ namespace Time_Sheet_Buddy.Controllers
                 return NotFound();
             }
 
+            byte[] themaToSend = await getThemaId();
+
+            ViewBag.ThemaToShow = themaToSend;
+
             return View(ideas);
         }
 
@@ -148,7 +153,77 @@ namespace Time_Sheet_Buddy.Controllers
             {
                 return NotFound();
             }
+
+            byte[] themaToSend = await getThemaId();
+
+            ViewBag.ThemaToShow = themaToSend;
+
             return View(ideas);
+        }
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public async Task EditChange([FromBody] IdeaPropModel model)
+        {
+            int modelId = model.id;
+            string modelTitle = model.title;
+            string modelDescription = model.Description;
+
+            Ideas idea = _context.Ideas.Find(modelId);
+
+            if (modelId == 0)
+            {
+                return;
+                //return NotFound();
+            }
+
+            var ideaFind = _context.Ideas.Find(modelId);
+            if (ideaFind == null)
+            {
+
+                return;
+                //return NotFound();
+            }
+            ideaFind.Title = modelTitle;
+            ideaFind.Description= modelDescription;
+            
+            _context.Update(ideaFind);
+            await _context.SaveChangesAsync();
+            //var issueReturn = await _context.Issue
+            //.FirstOrDefaultAsync(m => m.Id == modelId);
+            //return View("./Details", issueReturn);
+            //return Redirect("Issues/Details?" + id);
+            //return RedirectToActionPermanent("Details", "Issues", new { id = modelId });
+            //return RedirectToAction("Details",  new { id = modelId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadImageAsync(string id)
+        {
+            var dd = Request;
+            var dda = Request.Form;
+
+            int idToInt = int.Parse(id);
+
+            foreach (var file in Request.Form.Files)
+            {
+                var idea = _context.Ideas.Find(idToInt);
+                //themas.ThemesPicture = file.FileName;
+
+                MemoryStream ms = new MemoryStream();
+                file.CopyTo(ms);
+                var toArr = ms.ToArray();
+                idea.IdeaPicture= ms.ToArray();
+
+                ms.Close();
+                ms.Dispose();
+
+                _context.Ideas.Update(idea);
+                _context.SaveChanges();
+            }
+
+            //ViewBag.Message = "Image(s) stored in database!";
+            return RedirectToAction("Edit", new { id = idToInt });
         }
 
         // POST: Ideas/Edit/5
@@ -188,9 +263,13 @@ namespace Time_Sheet_Buddy.Controllers
 
         public void DeleteSticky([FromBody] StickyCoordinates stickyCoordinates)
         {
-            var stickyId = stickyCoordinates.sticky_id;
+            if (stickyCoordinates == null) return;
 
+            var stickyId = stickyCoordinates.sticky_id;
+            
             Ideas idea = _context.Ideas.Find(stickyId);
+
+            if (idea == null) return;
 
             _context.Ideas.Remove(idea);
 
