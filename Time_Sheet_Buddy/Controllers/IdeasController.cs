@@ -71,8 +71,6 @@ namespace Time_Sheet_Buddy.Controllers
             _context.SaveChanges();
         }
 
-
-
         public void SaveStickyCoordinates([FromBody] StickyCoordinates stickyCoordinates)
         {
             if (stickyCoordinates == null) return;
@@ -116,29 +114,7 @@ namespace Time_Sheet_Buddy.Controllers
             ViewBag.ThemaToShow = themaToSend;
 
             return View(ideas);
-        }
-
-        // GET: Ideas/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Ideas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,ThemesPicture")] Ideas ideas)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(ideas);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(ideas);
-        }
+        }    
 
         // GET: Ideas/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -277,35 +253,6 @@ namespace Time_Sheet_Buddy.Controllers
             catch(Exception ex) { }
 
             return;
-        }
-
-        // GET: Ideas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var ideas = await _context.Ideas
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (ideas == null)
-            {
-                return NotFound();
-            }
-
-            return View(ideas);
-        }
-
-        // POST: Ideas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var ideas = await _context.Ideas.FindAsync(id);
-            _context.Ideas.Remove(ideas);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool IdeasExists(int id)

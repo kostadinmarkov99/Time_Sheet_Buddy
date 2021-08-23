@@ -285,50 +285,6 @@ namespace Time_Sheet_Buddy.Controllers
             return View(issue);
         }
 
-        // GET: Issues/Create
-        public IActionResult Create()
-        {
-            var users = _context.Users;
-            //SelectList list = new SelectList(users);
-
-
-            //ViewBag.Users = new SelectList(_context.Users, "Title", "Title");
-
-            /* var states = from r in db.States orderby r.Title select r;
-             SelectList stateList = new SelectList(states);*/
-            ViewBag.States = new SelectList(_context.Stetes, "Title", "Title");
-            ViewBag.Projects = new SelectList(_context.Projectcs, "Title", "Title");
-
-            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userItem = _context.Users.Find(currentUserId);
-
-            string userName = userItem.UserName;
-
-            ViewData["Assignee"] = userName;
-
-            ViewData["Users"] = users;
-            return View();
-        }
-
-        // POST: Issues/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Duration,AssignedTo, Assignee,Date,State,Project")] Issue issue)
-        {
-            string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userItem = _context.Users.Find(currentUserId);
-
-            string userName = userItem.UserName;
-
-            issue.Assignee = userName;
-
-            _context.Add(issue);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> CreateNewTask()
         {
@@ -490,36 +446,7 @@ namespace Time_Sheet_Buddy.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(issue);
-        }
-
-        // GET: Issues/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var issue = await _context.Issue
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (issue == null)
-            {
-                return NotFound();
-            }
-
-            return View(issue);
-        }
-
-        // POST: Issues/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var issue = await _context.Issue.FindAsync(id);
-            _context.Issue.Remove(issue);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        }       
 
         private bool IssueExists(int id)
         {
