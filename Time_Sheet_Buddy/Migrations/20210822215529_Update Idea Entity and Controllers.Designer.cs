@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Time_Sheet_Buddy.Data;
 
 namespace Time_Sheet_Buddy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210822215529_Update Idea Entity and Controllers")]
+    partial class UpdateIdeaEntityandControllers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,16 +183,10 @@ namespace Time_Sheet_Buddy.Migrations
                     b.Property<byte[]>("IdeaPicture")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("LeftStyle")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TopStyle")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
