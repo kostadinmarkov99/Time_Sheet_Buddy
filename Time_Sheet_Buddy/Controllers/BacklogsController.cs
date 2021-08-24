@@ -140,6 +140,11 @@ namespace Time_Sheet_Buddy.Controllers
             if (applicationUser != null)
             {
                 userThemaId = applicationUser.ThemaImage;
+
+                if (userThemaId == null)
+                {
+                    userThemaId = _context.Themas.Find(23).Id.ToString();
+                }
             }
 
             byte[] themaToSend = new byte[5];

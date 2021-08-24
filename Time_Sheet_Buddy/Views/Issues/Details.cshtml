@@ -17,72 +17,6 @@
     
 </head>
 <body style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">
-    @if (User.IsInRole("Administrator"))
-    {
-        <h1>Details</h1>
-
-        <div>
-            <h4>Issue</h4>
-            <hr />
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Title)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Title)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Duration)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Duration)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Assignee)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Assignee)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.AssignedTo)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.AssignedTo)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Date)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Date)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.State)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.State)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Project)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Project)
-                </dd>
-            </dl>
-        </div>
-        <div>
-            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-            <a asp-action="Index">Back to List</a>
-        </div>
-
-    }
-    else
-    {
         <div class="form-container">
             <div class="form-content">
                 <h1>Details</h1>
@@ -135,6 +69,5 @@
 
             </div>
         </div>
-    }
 </body>
 </html>

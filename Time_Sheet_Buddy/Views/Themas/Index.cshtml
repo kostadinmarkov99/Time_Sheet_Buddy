@@ -26,22 +26,27 @@
                 </div>
             }
         }
+
+
     </div>
 
     @*<div asp-action="Edit" asp-route-id="@item.Id">Edit</div>
         <div asp-action="Details" asp-route-id="@item.Id">Details</div>
         <div asp-action="Delete" asp-route-id="@item.Id">Delete</div>
     *@
-    <form asp-action="UploadImage"
-          asp-controller="Themas"
-          method="post"
-          enctype="multipart/form-data">
-        <input type="file" id="file1"
-               name="file1"
-               multiple="multiple" />
-        <button type="submit">Upload File(s)</button>
-    </form>
 
+    @if (User.IsInRole("Administrator"))
+    {
+        <form asp-action="UploadImage"
+              asp-controller="Themas"
+              method="post"
+              enctype="multipart/form-data">
+            <input type="file" id="file1"
+                   name="file1"
+                   multiple="multiple" />
+            <button type="submit">Upload File(s)</button>
+        </form>
+    }
     <script>
     function themaSelected(themaId) {
         window.location = "@(Url.Action("ThemaChoosed", "Themas"))" + "?themaId=" + themaId;
