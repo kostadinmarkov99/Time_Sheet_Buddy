@@ -1,0 +1,130 @@
+﻿button {
+    content: "Edit";
+}
+
+footer {
+    visibility: hidden;
+}
+
+html {
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    min-height: 100vh;
+    height: 100%;
+    margin: 0;
+    position: relative;
+    /* overflow: hidden; */
+}
+
+#stickies-container {
+    padding: 1rem;
+}
+
+.drag {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+    .drag.sticky:hover {
+        transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    }
+
+.sticky {
+    background: linear-gradient(to left bottom, #d4fc78, #99e5a2);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    color: #00243f;
+    /* 0 0 150px rgba(0, 0, 0, 0.2); */
+    cursor: grab;
+    display: inline-block;
+    padding: 1rem;
+    position: absolute;
+    width: 12.5rem;
+}
+
+    .sticky h3,
+    .sticky p {
+        /* color: #0065b3; */
+        color: #00243f;
+        pointer-events: none;
+    }
+
+    .sticky h3 {
+        border-bottom: dashed 2px #0085e8;
+        margin: 0 0 1rem;
+        min-height: 1.3rem;
+        padding: 0 1.5rem 0.25rem 0;
+    }
+
+    .sticky p {
+        margin: 0;
+        min-height: 9rem;
+    }
+
+    .sticky .deletesticky {
+        color: #0085e8;
+        cursor: pointer;
+        font-size: 2rem;
+        position: absolute;
+        right: 0.8rem;
+        top: 0.4rem;
+    }
+
+.sticky-form {
+    position: absolute;
+    right: 1rem;
+}
+
+    .sticky-form label,
+    .sticky-form input,
+    .sticky-form textarea {
+        color: #fff;
+        display: block;
+    }
+
+    .sticky-form input,
+    .sticky-form textarea {
+        background-color: #f0f9ff44;
+        background-clip: padding-box;
+        border: 2px dashed #0065b3;
+        border-radius: 0.25rem;
+        color: #00243f;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        margin-bottom: 0.75rem;
+        padding: 0.375rem 0.75rem;
+        width: calc(100% - 1.5rem);
+    }
+
+        .sticky-form input:focus,
+        .sticky-form textarea:focus {
+            border: 2px dashed #ffffff;
+            outline: none;
+        }
+
+button.button {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    background-color: #d4fc78;
+    border-radius: 0.25rem;
+    border: 1px solid transparent;
+    color: #0065b3;
+    display: inline-block;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 0.375rem 0.75rem;
+    text-align: center;
+    user-select: none;
+    vertical-align: middle;
+}

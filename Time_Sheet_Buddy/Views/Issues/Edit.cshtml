@@ -4,6 +4,10 @@
 
 @model Time_Sheet_Buddy.Entities.Issue
 
+@section IssueEditStyles{
+    <link rel="stylesheet" href="~/css/IssueEditStyle.css" />
+}
+
 @{
     ViewBag.Title = "Edit";
 
@@ -21,113 +25,6 @@
 <!DOCTYPE html>
 <html style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">
 <head>
-    <style>
-        #assignedToLbl,
-        #stateLbl {
-            display: block;
-        }
-
-        * {
-            font-family: "Helvetica",sans-serif;
-            box-sizing: border-box;
-        }
-
-        body, html {
-            min-height: 100%;
-            padding: 0;
-        }
-
-        body {
-            font-size: 16px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group {
-            margin-bottom: auto;
-        }
-
-        footer {
-            background: white;
-        }
-
-        .form-container {
-            margin: auto;
-            background: white;
-            max-width: 45rem;
-            width: 90%;
-            border-radius: 16px;
-        }
-
-        .form-content {
-            margin: auto;
-            padding: 0.7rem;
-            display: flex;
-            justify-content: flex-start;
-            flex-direction: column;
-        }
-
-        .links {
-            display: flex;
-            justify-content: flex-end;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .form-content input {
-            padding: 0.5rem;
-            margin: .5rem 0 .5rem 0;
-            border: none;
-            width: 100%;
-            border-bottom: 1px solid #99A2EA;
-        }
-
-            .form-content input:focus {
-                border: none;
-                border-bottom: 1px solid #4E6AD7;
-            }
-
-        .form-content h1 {
-            margin-top: 0;
-            font-size: 2rem;
-            font-weight: normal;
-        }
-
-        .form-content h2 {
-            font-size: 1.5rem;
-            font-weight: lighter;
-            color: #838592;
-        }
-
-        .form-content button {
-            max-width: 10rem;
-            border-radius: 60px;
-            background-color: #54BDD6;
-            color: white;
-            border: none;
-            padding: .5rem 2.5rem;
-            margin: 4rem 0 .5rem 0;
-        }
-
-        .form-content a {
-            margin: .5rem 0 .5rem 0;
-            color: rgb(20, 20, 240)
-        }
-
-            .form-content a:hover {
-                text-decoration: underline;
-            }
-
-        #error-message {
-            color: red;
-        }
-
-        @@media only screen and (max-width: 890px) {
-            .form-container {
-                min-width: 90%;
-            }
-        }
-    </style>
 </head>
 <body style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">
     @using (Html.BeginForm())
@@ -280,7 +177,7 @@
         //console.log(docuent.getElementById("Title"));
 
         var o = new Object();
-        o.id = @Model.Id;
+        o.Id = @Model.Id;
         o.Title = titleValue;
         o.Description = descriptionValue;
         o.Duration = durationValue;
@@ -304,7 +201,7 @@
         }
         request.send(JSON.stringify(o));
 
-        window.location.href = "/Issues/Details?id=" + @Model.Id;
+        //window.location.href = "/Issues/Details?id=" + @Model.Id;
     }
 
     @*var btn = document.getElementById("savedChangesBtn");

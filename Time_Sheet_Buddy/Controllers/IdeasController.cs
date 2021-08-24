@@ -57,7 +57,7 @@ namespace Time_Sheet_Buddy.Controllers
             return View(await _context.Ideas.ToListAsync());
         }
 
-        public void SaveSticky([FromBody] StickyModel stickyModel)
+        public bool SaveSticky([FromBody] StickyModel stickyModel)
         {
             var title = stickyModel.sticky_title;
             var description = stickyModel.sticky_description;
@@ -69,11 +69,13 @@ namespace Time_Sheet_Buddy.Controllers
 
             _context.Ideas.Add(newIdea);
             _context.SaveChanges();
+
+            return true;
         }
 
-        public void SaveStickyCoordinates([FromBody] StickyCoordinates stickyCoordinates)
+        public bool SaveStickyCoordinates([FromBody] StickyCoordinates stickyCoordinates)
         {
-            if (stickyCoordinates == null) return;
+            if (stickyCoordinates == null) return false;
             var stickyId = stickyCoordinates.sticky_id; 
             var leftStyle = stickyCoordinates.left_style;
             var topStyle = stickyCoordinates.top_style;
@@ -92,6 +94,8 @@ namespace Time_Sheet_Buddy.Controllers
 
             _context.Ideas.Update(idea);
             _context.SaveChanges();
+
+            return true;
         }
 
         // GET: Ideas/Details/5
@@ -255,8 +259,9 @@ namespace Time_Sheet_Buddy.Controllers
             return;
         }
 
-        private bool IdeasExists(int id)
+        public bool IdeasExists(int id)
         {
+            var idea = _context.Ideas.Find(id);
             return _context.Ideas.Any(e => e.Id == id);
         }
     }

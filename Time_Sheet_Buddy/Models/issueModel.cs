@@ -13,14 +13,10 @@ namespace Time_Sheet_Buddy.Models
 
         public string Description { get; set; }
 
-        public double Duration { get; set; }
-
-        public string Assignee { get; set; }
+        public string Duration { get; set; }
 
         public string AssignedTo { get; set; }
 
         public string State { get; set; }
-
-        public string Project { get; set; }
     }
 }

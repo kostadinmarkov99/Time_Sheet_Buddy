@@ -1,0 +1,299 @@
+﻿main {
+    padding: 0rem 5%;
+    height: 100%;
+}
+
+.container {
+    width: 100%;
+    max-width: 100%;
+}
+
+.issue {
+    transition: transform .2s; /* Animation */
+}
+
+    .issue:hover {
+        transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    }
+
+.container body-content {
+    width: 80%;
+}
+
+.board-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    flex-direction: column;
+}
+
+.pb-3 {
+    height: 100%;
+    width: 100%;
+}
+
+.issues-block {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.issue-container {
+    height: 100%;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding: 1px;
+}
+
+#issues {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.issue-duration {
+    text-align: center;
+}
+
+.issue-container h2 {
+    margin: .5rem;
+}
+
+.issues-list {
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: .25rem;
+    list-style: none;
+    margin: 0;
+    padding: .5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.issue {
+    width: 100%;
+    margin: .5rem;
+    border: 1px solid black;
+    border-radius: .25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.issue-title {
+    align-self: center;
+    margin: .5rem 0;
+    color: #436C81;
+    word-wrap: break-word;
+    display: inline-block;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.issue-description {
+    align-self: center;
+    margin: .1rem 0;
+    color: darkgray;
+    word-wrap: break-word;
+    display: inline-block;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+    font-style: italic;
+}
+
+#deletion-tray {
+    margin: .2rem;
+    width: 100%;
+    background-image: url('../../wwwroot/images/trash.png');
+    background-color: #ffeded;
+    background-repeat: no-repeat;
+    background-size: 5rem;
+    background-position: center;
+    opacity: 0.8;
+    border-radius: .25rem;
+    overflow-y: unset;
+}
+
+.issue.dragging {
+    opacity: .5;
+}
+
+.add-btn-img {
+    margin: 0 auto;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-self: flex-start;
+}
+
+.delete-img {
+    margin: 0 auto;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-self: flex-start;
+}
+
+
+@media only screen and (max-width: 1024px) {
+    main {
+        font-size: small;
+        padding: .5rem 2%;
+        max-width: 99vw;
+    }
+
+    .issues-block {
+        flex-direction: column;
+    }
+
+    .issues-list {
+        overflow-y: scroll;
+    }
+
+    .issue-duration {
+        text-align: center;
+    }
+
+    .issue-container {
+        width: 100%;
+        min-height: 40vh;
+        max-height: 50vh;
+    }
+}
+
+@media (min-width: 1200px) .container {
+    width: 100%;
+
+    .issue-duration {
+        text-align: center;
+    }
+
+    .issues-list {
+        overflow-y: scroll;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    main {
+        font-size: small;
+        padding: .5rem 2%;
+        max-width: 99vw;
+    }
+
+    #issues {
+        flex-direction: column;
+    }
+
+    .issues-list {
+        overflow-y: scroll;
+    }
+
+    .issue-duration {
+        text-align: center;
+    }
+
+    .issues-block {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .issue-container {
+        flex-direction: column;
+        width: 100%;
+        min-height: 40vh;
+        max-height: 50vh;
+    }
+}
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* The Modal (background) */
+.modalProj {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* Modal Content */
+.modal-contentProj {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* The Close Button */
+.closeProj {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.closeProj:hover,
+..closeProj:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}

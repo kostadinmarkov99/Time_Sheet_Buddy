@@ -9,6 +9,17 @@
     <title>@ViewData["Title"] - Time Sheet Buddy</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("IssueDetailsStyles", false)
+    @RenderSection("IssueIndexStyles", false)
+    @RenderSection("IssueEditStyles", false)
+    @RenderSection("BacklogIndexStyles", false)
+    @RenderSection("BacklogProjectBacklogStyles", false)
+    @RenderSection("IdeaIndexStyles", false)
+    @RenderSection("IdeaDetailsStyles", false)
+    @RenderSection("IdeaEditStyles", false)
+    @RenderSection("HomeIndexStyles", false)
+    @RenderSection("HomePrivacyStyles", false)
+    @RenderSection("ThemaIndexStyles", false)
 </head>
 <body>
     <header>
@@ -66,5 +77,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("BacklogIssueScripts", required: false)
 </body>
 </html>

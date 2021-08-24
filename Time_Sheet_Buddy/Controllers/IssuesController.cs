@@ -357,8 +357,10 @@ namespace Time_Sheet_Buddy.Controllers
             string modelTitle = model.Title;
             string modelDescription = model.Description;
             string modelState = model.State.ToLower();
-            double modelDuration = model.Duration;
+            double modelDuration = double.Parse(model.Duration);
             string modelAssignedTo = model.AssignedTo;
+
+
 
             string newState = "New";
             if (modelState == "open")
@@ -395,10 +397,11 @@ namespace Time_Sheet_Buddy.Controllers
 
             _context.Update(issue);
              await _context.SaveChangesAsync();
+
+           //return Redire;
             //var issueReturn = await _context.Issue
                 //.FirstOrDefaultAsync(m => m.Id == modelId);
             //return View("./Details", issueReturn);
-            //return Redirect("Issues/Details?" + id);
             //return RedirectToActionPermanent("Details", "Issues", new { id = modelId });
             //return RedirectToAction("Details",  new { id = modelId });
         }

@@ -1,5 +1,9 @@
 ﻿@model List<Time_Sheet_Buddy.Entities.Themas>
 
+@section ThemaIndexStyles{
+    <link rel="stylesheet" href="~/css/ThemaIndexStyle.css" />
+}
+
 @{
     ViewData["Title"] = "Index";
 
@@ -9,24 +13,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        .grid-container {
-            display: grid;
-            grid-template-columns: auto auto auto;
-            padding: 10px;
-        }
-
-        .grid-item {
-            border: 1px solid rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            font-size: 30px;
-            text-align: center;
-        }
-
-            .grid-item:hover {
-                transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-            }
-    </style>
 </head>
 
 <body style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">

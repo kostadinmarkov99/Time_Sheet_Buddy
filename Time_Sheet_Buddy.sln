@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Time_Sheet_Buddy", "Time_Sheet_Buddy\Time_Sheet_Buddy.csproj", "{24F2FADB-B4C5-4345-AB91-661D8D138C35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Time_Sheet_Buddy", "Time_Sheet_Buddy\Time_Sheet_Buddy.csproj", "{24F2FADB-B4C5-4345-AB91-661D8D138C35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Time_Sheet_Buddy.Test", "Time_Sheet_Buddy.Test\Time_Sheet_Buddy.Test.csproj", "{F93A940A-F1E7-4471-A919-CA86C02AAB9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{24F2FADB-B4C5-4345-AB91-661D8D138C35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24F2FADB-B4C5-4345-AB91-661D8D138C35}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24F2FADB-B4C5-4345-AB91-661D8D138C35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F93A940A-F1E7-4471-A919-CA86C02AAB9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F93A940A-F1E7-4471-A919-CA86C02AAB9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F93A940A-F1E7-4471-A919-CA86C02AAB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F93A940A-F1E7-4471-A919-CA86C02AAB9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
