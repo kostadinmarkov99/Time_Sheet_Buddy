@@ -9,6 +9,8 @@
 
 @{
     ViewData["Title"] = "Index";
+
+    var themaToShow = ViewData["ThemaToShow"] as byte[];
 }
 
 @{
@@ -18,11 +20,11 @@
 }
 <h2></h2>
 
-<html>
+<html style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">
 <head>
 
 </head>
-<body>
+<body style="background-image:url(data:image/gif;base64,@(Convert.ToBase64String(themaToShow))">
     <div class="root">
         <header class="main-header">
             <h1>Backlog</h1>

@@ -34,6 +34,8 @@ namespace Time_Sheet_Buddy.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
+            var themaToSend = new byte[5];
+
             var selectedValue = "Show All";
             try
             {
@@ -67,6 +69,10 @@ namespace Time_Sheet_Buddy.Controllers
                     })
                     .ToList();
 
+                themaToSend = await getThemaId();
+
+                ViewBag.ThemaToShow = themaToSend;
+
                 ViewData["LastChoice"] = selectedValue;
                 ViewData["CurrentUser"] = userId;
 
@@ -81,6 +87,11 @@ namespace Time_Sheet_Buddy.Controllers
             ViewBag.Users = list.ToList();
             ViewData["Users"] = users.ToList();
             var modelIssue = _context.Issue.ToList();
+
+            themaToSend = await getThemaId();
+
+            ViewBag.ThemaToShow = themaToSend;
+
             return View(modelIssue);
         }
 
